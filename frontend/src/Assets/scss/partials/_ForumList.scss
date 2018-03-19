@@ -1,0 +1,25 @@
+.box{
+  position: relative;
+}
+.media{
+  margin-bottom:2rem;
+}
+.album{
+  width:20rem;
+  height:20rem;
+  opacity: 1;
+  transition: .5s ease;
+  backface-visibility: hidden;
+
+}
+
+
+
+.box:hover .album {
+  opacity: 0.3;
+}
+
+.box:hover .active {
+  opacity: 1;
+}
+

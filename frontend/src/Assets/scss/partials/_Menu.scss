@@ -1,0 +1,57 @@
+aside{
+  width:7.5vh;
+  min-height: 95vh;
+  background-color:$secondary;
+  color:$primary;
+  // padding:0.3rem 0.8rem;
+  position:fixed;
+  top:6vh;
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  vertical-align:center;
+  z-index: 1;
+  .fas{
+    margin: 1rem 0;
+  }
+}
+
+aside a {
+  display: block;
+  text-align: center;
+  padding: 16px;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 2rem;
+  &:hover{
+    color:$primary;
+    background-color: $thirdColor;    
+  }
+}
+
+.active {
+  border-left: solid #4CAF50 !important;
+  &:hover{
+    background-color:transparent;
+  }
+}
+
+
+
+.settings{
+  position:absolute; 
+  bottom:1vh; 
+  right:1vh;
+  background-color:transparent;
+  &:hover{
+    background-color:transparent;
+  }
+}
+
+// .sidebar-toggle {
+//   position: absolute;
+//   top: 1vh;
+//   left: 6.8vh;
+//   font-size:2rem;
+//   background-color:$secondary;
+//   border-radius:15%;
+//   padding:2px;
+// }

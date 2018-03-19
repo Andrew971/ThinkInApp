@@ -1,0 +1,31 @@
+
+.time{
+  // margin-top:4rem;
+  h1{
+font-size:5rem;
+  }
+  h2{
+    font-size:2rem;
+
+  }
+}
+
+.dash_icon{
+  width:6rem;
+  height:6rem;
+  background:$secondary;
+  color:$primary;
+  font-size:3rem;
+  padding:2rem; 
+  border-radius:100%;
+  align:center;
+  
+}
+.i1{
+  content: "\f015";
+}
+.container{
+  margin-top:5rem;
+  width:95vh;
+}
+
