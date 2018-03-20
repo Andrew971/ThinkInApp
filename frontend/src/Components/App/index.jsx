@@ -35,8 +35,8 @@ componentWillMount=()=>{
   render() {
 
     return (
-      <div className="container-fluid">
-        <Nav />
+      <div className="">
+        <Nav history={this.props.history}/>
         <Switch>
           <Route exact path='/' render={(routeProps) =>
             <Log

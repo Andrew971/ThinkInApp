@@ -36,22 +36,22 @@ export class Dashboard extends Component {
         </div>
         <div className="container">
           <div className="row" align="center">
-            <div className="col-lg-3">
+            <div className="col-lg-3 col-3">
               <Link to={"/"+this.props.username} className="dash_icon">
                 <i className="fa fa-home"></i>
               </Link>
             </div>
-            <div className="col-lg-3">
+            <div className="col-3 col-lg-3">
               <Link to="/login" className="dash_icon">
                 <i className="fa fa-comments"></i>
               </Link>
             </div>
-            <div className="col-lg-3">
+            <div className="col-3 col-lg-3">
               <Link to="/" className="dash_icon">
                 <i className="fa fa-bell"></i>
               </Link>
             </div>
-            <div className="col-lg-3">
+            <div className="col-3 col-lg-3">
               <Link to="/" className="dash_icon">
                 <i className="fa fa-bar-chart"></i>
               </Link>

@@ -1,28 +1,12 @@
 import React, { Component } from 'react';
-import Search from './Search'
-import Menu from './Menu'
-import LogNav from './LogNav'
 import { connect } from 'react-redux';
-import UiLog from './UiLog'
+import UiNavabar from './UiNavbar'
 
 class Nav extends Component {
 
-
-
-  render() {
-    const { token } = this.props
-
-    if (!token) {
-     return( <nav className="row">
-        <LogNav />
-      </nav>
-     )}
+  render() {     
     return (
-      <nav className="row">
-
-        <Search />
-        <Menu />
-      </nav>
+     <UiNavabar  history={this.props.history}/>
     );
   }
 }

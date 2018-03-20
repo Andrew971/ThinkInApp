@@ -5,13 +5,31 @@ import './Assets/css/styles.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import configureStore from './Redux/store'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import muiTheme from './js/MuiTheme'
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import CssBaseline from 'material-ui/CssBaseline';
+import purple from 'material-ui/colors/purple';
+import green from 'material-ui/colors/green';
 const initialState = {};
 const store = configureStore(initialState)
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: purple[300],
+      main: purple[500],
+      dark: purple[700],
+    },
+    secondary: {
+      light: green[300],
+      main: green[500],
+      dark: green[700],
+    },
+  },
+});
+
 ReactDOM.render(
-    <MuiThemeProvider muiTheme={muiTheme}>
+    <MuiThemeProvider theme={theme}>
+    <CssBaseline />
   <Provider store={store}>
 <Router>
   <Route path="/" component={App}/>

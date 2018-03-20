@@ -1,27 +1,20 @@
-.search{
-  padding: 0.5rem;
+// .search{
+// right: 30rem;
 
-left:10vh;
-
-input:focus
-{
-	outline:0;
-}
-}
+// }
 
 
 .result_box{
 background-color:$secondary;
-width:55vh;
+width:100%;
 height:20vh;
 position:relative;
-left:10vh;
 padding:2vh;
 overflow-x: hidden;
 overflow-y:auto;
 color:$primary;
-border-radius: 2vh;
 box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.63);
+z-index:1;
 -webkit-transition: all 1s ease-in-out;
 -moz-transition: all 1s ease-in-out;
 -ms-transition: all 1s ease-in-out;

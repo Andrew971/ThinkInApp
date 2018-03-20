@@ -7,6 +7,10 @@ body {
   -ms-transition: all 1s ease-in;
   -o-transition: all 1s ease-in;
   transition: all 1s ease-in; }
+  body a {
+    color: black; }
+  body a:hover {
+    color: black; }
 
 .container-fluid {
   padding: 0; }
@@ -15,32 +19,16 @@ body {
   margin: 0; }
 
 section {
-  height: 94vh;
+  height: 100%;
   width: 100%;
   padding: 4rem;
   overflow: auto; }
 
-nav {
-  width: 100%;
-  height: 6vh;
-  background-color: #4a4a4a;
-  color: white;
-  padding: 0.5vh 0.8vh;
-  position: fixed;
-  z-index: 1; }
-
-.logout {
-  color: white;
-  padding: 0.5rem; }
-
-.input {
-  display: inline-block; }
-
 aside {
   width: 7.5vh;
   min-height: 95vh;
-  background-color: #4a4a4a;
-  color: white;
+  background-color: rgba(31, 164, 204, 0.87);
+  color: #555454;
   position: fixed;
   top: 6vh;
   transition: 0.5s;
@@ -58,7 +46,7 @@ aside a {
   color: white;
   font-size: 2rem; }
   aside a:hover {
-    color: white;
+    color: #555454;
     background-color: rgba(18, 17, 17, 0.76); }
 
 .active {
@@ -75,13 +63,11 @@ aside a {
     background-color: transparent; }
 
 main {
-  color: #4a4a4a;
+  color: #555454;
   position: absolute;
-  padding-left: 7.5vh;
-  padding-top: 6vh;
   width: 100%;
   height: 100vh;
-  background-color: rgba(113, 203, 255, 0.733);
+  background-color: rgba(255, 255, 255, 0.178);
   overflow: auto; }
 
 .time h1 {
@@ -93,8 +79,8 @@ main {
 .dash_icon {
   width: 6rem;
   height: 6rem;
-  background: #4a4a4a;
-  color: white;
+  background: rgba(31, 164, 204, 0.87);
+  color: #555454;
   font-size: 3rem;
   padding: 2rem;
   border-radius: 100%;
@@ -126,24 +112,17 @@ main {
 .box:hover .active {
   opacity: 1; }
 
-.search {
-  padding: 0.5rem;
-  left: 10vh; }
-  .search input:focus {
-    outline: 0; }
-
 .result_box {
-  background-color: #4a4a4a;
-  width: 55vh;
+  background-color: rgba(31, 164, 204, 0.87);
+  width: 100%;
   height: 20vh;
   position: relative;
-  left: 10vh;
   padding: 2vh;
   overflow-x: hidden;
   overflow-y: auto;
-  color: white;
-  border-radius: 2vh;
+  color: #555454;
   box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.63);
+  z-index: 1;
   -webkit-transition: all 1s ease-in-out;
   -moz-transition: all 1s ease-in-out;
   -ms-transition: all 1s ease-in-out;
@@ -156,5 +135,23 @@ main {
   width: 2px; }
 
 .result_box::-webkit-scrollbar-thumb {
-  box-shadow: white;
+  box-shadow: #555454;
   -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0); }
+
+.miniView {
+  background-color: red;
+  width: 20vh;
+  margin-left: 5vh;
+  position: relative;
+  top: 20vh;
+  padding: 0;
+  border: 42px black;
+  box-shadow: inset 0 0 6px rgba(255, 255, 255, 0); }
+
+.profile_img {
+  background-color: grey; }
+
+.profile_info {
+  background-color: white;
+  padding: 1rem;
+  border: 2px black; }

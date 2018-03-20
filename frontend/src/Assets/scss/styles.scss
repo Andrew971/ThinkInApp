@@ -1,5 +1,5 @@
-$primary:rgb(255, 255, 255);
-$secondary:rgb(74, 74, 74);
+$primary:rgb(85, 84, 84);
+$secondary:rgba(31, 164, 204, 0.87);
 $thirdColor:rgba(18, 17, 17, 0.76);
 
 body{
@@ -11,16 +11,24 @@ body{
   -ms-transition: all 1s ease-in;
   -o-transition: all 1s ease-in;
   transition: all 1s ease-in;
+  a{
+    color:black;
+  }
+  a:hover{
+    color:black;
+  }
 }
 .container-fluid{
   padding:0;
   
 }
+
+
 .row{
   margin:0;
 }
 section {
-  height:94vh;
+  height:100%;
   width:100%;
   padding:4rem;
   overflow:auto;
@@ -31,3 +39,4 @@ section {
 @import './partials/Dashboard';
 @import './partials/ForumList';
 @import './partials/Search';
+@import './partials/Profile';
