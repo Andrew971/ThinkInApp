@@ -127,7 +127,7 @@ class logged extends Component {
                         this.handleClose()
                       }}>Dashboard</MenuItem>
                       <MenuItem onClick={() => {
-                        this.props.history.push('/dashboard')
+                        this.props.history.push(`/${this.props.username}`)
                         this.handleClose()
                       }}>My Profile</MenuItem>
                       <Divider />
@@ -139,7 +139,7 @@ class logged extends Component {
                   </Grid>
                   </Grid>
                 </Grid>
-              ) : (<div className="logout col-12" align="right">
+              ) : (<Grid item xs>
                 <form ref={self => this.loginForm = self}>
                   Username:
  <input type="text" className="" name="username" />
@@ -148,7 +148,7 @@ class logged extends Component {
                   <button type="button" onClick={() => { this.login() }}>Log in</button>
 
                 </form>
-              </div>)}
+              </Grid>)}
               </Grid>
 
           </Toolbar>
@@ -170,6 +170,7 @@ const mapStateToProps = (state) => {
     labs: state.search.labFilter,
     forums: state.search.forumFilter,
     profile: state.search.profileFilter,
+    username:state.user.username
   };
 };
 

@@ -34,7 +34,7 @@ export class Labview extends Component {
       return elm.id === this.props.data.id
     })
     return (
-      <section>
+      <div>
         test: ok1
          <br />
         {this.props.data.Title}
@@ -53,7 +53,7 @@ export class Labview extends Component {
         }
 
         <LabComments />
-      </section>
+      </div>
 
 
     );

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GetOneForum,ResetRedirect } from '../../../../Redux/Actions/forumAction';
 
-import { Link } from 'react-router-dom'
 
 export class ForumView extends Component {
 
@@ -23,21 +22,16 @@ export class ForumView extends Component {
 
   render() {
 
-let {match} = this.props
     return (
-      <section style={{ background: "" }}>
+      <div style={{ background: "" }}>
          test:
    {this.props.data.Name}
 <br />
-<Link to={`${match.url}/labs`}>Labs</Link><br />
-{
-(this.props.owner===this.props.viewer)
-?<Link to={`${match.url}/option`}>Option</Link>
-:''
-}
 
 
-  </section>
+
+
+  </div>
 
 
     );

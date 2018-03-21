@@ -27,10 +27,9 @@ export class LabList extends Component {
   }
 
   render() {
-    let {match} = this.props
-    let { forumName} = this.props
+    let {match, forumName,owner, viewer,labListLoaded,data } = this.props
 
-    let List = this.props.data.map((lab) => {
+    let List = data.map((lab) => {
       return (
         <div key={lab.id} className=" col-6 col-md-4 col-lg-2">
           <div className="media">
@@ -42,7 +41,7 @@ export class LabList extends Component {
       );
     })
 
-    if(this.props.labListLoaded === false){
+    if(labListLoaded === false){
      return(
 <div>Loading</div>
      ) 
@@ -53,7 +52,11 @@ export class LabList extends Component {
         <div className="row">
   
         {List}<br />
-              <Link to={`${match.url}/addlab`}> <i className="fa fa-plus"></i></Link> 
+        {
+(owner===viewer)
+?<Link to={`${match.url}/addlab`}> <i className="fa fa-plus"></i></Link> 
+:''
+}
           </div>
   
   </section>
@@ -71,7 +74,8 @@ const mapStateToProps = (state) => {
     forumId: state.forum.ForumData.id,
     labListLoaded: state.lab.labListLoaded,
     forumName: state.forum.ForumData.Name ,
-
+    viewer:state.user.id,
+    owner:state.forum.ForumData.user_id
   };
 };
 

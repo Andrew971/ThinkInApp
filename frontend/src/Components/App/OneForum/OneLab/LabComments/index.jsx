@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GetOneLab, addComment,GetComment } from '../../../../../Redux/Actions/labAction';
+import {Zoom} from 'material-ui/transitions';
 
 
 export class LabComments extends Component {

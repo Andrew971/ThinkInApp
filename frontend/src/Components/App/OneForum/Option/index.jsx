@@ -57,14 +57,14 @@ export class Option extends Component {
   }
 
   render() {
-    const { redirect, redirectToReferer } = this.props;
+    const { redirect, redirectToReferer, user } = this.props;
 
     if (redirect) {
-      return <Redirect to='/forum' />
+      return <Redirect to={`${user}/forum`} />
     }
 
     if (redirectToReferer) {
-      return <Redirect to={'/' + this.props.data.Name} />
+      return <Redirect to={'/forum/' + this.props.data.Name} />
     }
 
 
@@ -118,7 +118,8 @@ const mapStateToProps = (state) => {
     data: state.forum.ForumData,
     forumid: state.forum.ForumData.id,
     redirect: state.forum.redirect,
-    redirectToReferer: state.forum.redirectToReferer
+    redirectToReferer: state.forum.redirectToReferer,
+    user:state.user.username
   };
 };
 

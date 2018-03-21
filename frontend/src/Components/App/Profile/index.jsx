@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PrivateRoute from '../../../js/PrivateRoute'
-import { Link, Switch, withRouter } from 'react-router-dom'
-import img from '../../../Assets/img/profile.jpg'
-import img1 from '../../../Assets/img/profile_min.png'
+import { Switch, withRouter } from 'react-router-dom'
 import MyLab from './MyLab'
 import ProfileView from './ProfileView'
 import MyForum from './MyForum'
@@ -13,9 +11,30 @@ import Setting from './Setting'
 import { FollowOneUser, GetmyList, GetListFolowed } from '../../../Redux/Actions/followAction';
 // import { gotFollow } from '../../../Redux/Selectors/followSelector';
 import { GetProfile } from '../../../Redux/Actions/getUserInfo';
-import Card, { CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import Paper from 'material-ui/Paper';
+import Card, { CardActions, CardMedia } from 'material-ui/Card';
+import { Paper, Button, Typography, Chip, Avatar } from 'material-ui';
+import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
+import img from '../../../Assets/img/profile.jpg'
 
+const styles = theme => ({
+  card: {
+    width: '100%',
+  },
+  actions: {
+    display: 'flex',
+  },
+  content: {
+    width: '100%',
+    padding: '5vh 10vh',
+  },
+  chip: {
+    margin: theme.spacing.unit,
+  },
+  media: {
+    height: '20vh',
+  },
+});
 
 export class Profile extends Component {
   componentDidMount = () => {
@@ -38,48 +57,76 @@ export class Profile extends Component {
     }
   }
 
-  FollowLab = () => {
+  FollowOneUser = () => {
     const { dispatch, viewer, profile } = this.props;
     dispatch(FollowOneUser({ user_id: viewer, foUser_id: profile.user_id }));
   }
 
   render() {
-    let { match, viewer, profile } = this.props
+    let { match, viewer, profile, classes } = this.props
+
     const friends = this.props.myFriends.filter(elm => elm.id === profile.id)
     return (
       <main>
-        <section style={{ background: "miniView" }}>
-          <Card>
-            <CardMedia> 
-              <img src={img} alt="" style={{ height: "30vh",backgroundSize:'cover' }}/>
-            </CardMedia>
-            <br />
-            <div className="miniView">
-              <div classname="profile_img">
-test
-              </div>
-              <div className="profile_info">
-            <Link to={`${match.url}`}>Profile</Link><br />
-            <Link to={`${match.url}/forum`}>Forums</Link><br />
-            <Link to={`${match.url}/lab`}>Follow</Link><br />
-            <Link to={`${match.url}/settings`}>Settings</Link><br />
-            {
-              (viewer)
-                ? (viewer !== profile.user_id)
-                  ? (friends.length === 0)
-                    ? <button onClick={() => { this.FollowLab() }}>Follow</button>
-                    : <button onClick={() => { }}>Unfollow</button>
+        <section style={{ background: "" }}>
+          <Card className={classes.card} align="center">
+            
+            <CardMedia className={classes.media}
+              image={img}
+              title="Contemplative Reptile" />
+              <Typography variant="display2" component="h1" align="center">
+              {profile.first_name} {profile.last_name}
+            </Typography>
+            <CardActions className={classes.actions}>
+              <Button size="small" color="secondary" onClick={() => {
+                this.props.history.push(`${match.url}`)
+              }}>
+                Profile
+              </Button>
+              <Button size="small" color="secondary" onClick={() => {
+                this.props.history.push(`${match.url}/forum`)
+              }}>
+                Forums
+              </Button>
+              <Button size="small" color="secondary" onClick={() => {
+                this.props.history.push(`${match.url}/lab`)
+              }}>
+                Follow
+              </Button>
+              {
+                (viewer === profile.user_id)
+                  ?
+                  <Button size="small" color="secondary" onClick={() => {
+                    this.props.history.push(`${match.url}/settings`)
+                  }}>
+                    Settings
+              </Button>
                   : ''
-                : ''
-            }<br />
-            {
-              (viewer === profile.user_id)
-                ? <Link to={`${match.url}/option`}>Option</Link>
-                : ''
-            }<br />
-            </div>
-            </div>
-            test ProfileView: {profile.first_name} {profile.last_name}
+              }
+              {
+                (viewer)
+                  ? (viewer !== profile.user_id)
+                    ? (friends.length === 0)
+                      ? <Chip
+                        label="Follow"
+                        onClick={() => { this.FollowOneUser() }}
+                        className={classes.chip}
+                        color="secondary"
+                      />
+                      : <Chip
+                        label="followed"
+                        onClick={() => { }}
+                        className={classes.chip}
+                        color="secondary"
+                      />
+                    : ''
+                  : ''
+              }
+
+            </CardActions>
+          </Card>
+
+          <Paper className={classes.content} elevation={4}>
 
             <Switch>
               <PrivateRoute exact path={match.url} render={(routeProps) =>
@@ -114,7 +161,7 @@ test
               />
             </Switch>
 
-          </Card>
+          </Paper>
 
         </section>
 
@@ -123,7 +170,9 @@ test
     );
   }
 }
-
+Profile.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = (state) => {
   // console.log(state)
@@ -140,6 +189,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(
+export default withStyles(styles)(withRouter(connect(
   mapStateToProps
-)(Profile));
+)(Profile)));
