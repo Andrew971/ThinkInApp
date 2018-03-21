@@ -5,21 +5,32 @@ import Option from './Option'
 import ForumView from './ForumView'
 import PrivateRoute from '../../../js/PrivateRoute'
 
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route , withRouter} from 'react-router-dom'
 import Card, { CardActions, CardMedia } from 'material-ui/Card';
 import {Paper, Button, Typography} from 'material-ui';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import img from '../../../Assets/img/profile.jpg'
 
-const styles = {
+const styles = theme => ({
   card: {
     width: '100%',
+  },
+  actions: {
+    display: 'flex',
+  },
+  content: {
+    width: '100%',
+    padding: '5vh 5vh',
+  },
+  chip: {
+    margin: theme.spacing.unit,
   },
   media: {
     height: '20vh',
   },
-};
+});
+
 export class Forum extends Component {
 
 
@@ -32,6 +43,9 @@ export class Forum extends Component {
             <CardMedia className={classes.media}
               image={img}
               title="Contemplative Reptile" />
+              <Typography variant="display2" component="h1" align="center">
+              {data.Name}
+            </Typography>
             <CardActions>
               <Button size="small" color="primary" onClick={() => {
                 this.props.history.push(`${match.url}`)
@@ -56,10 +70,8 @@ export class Forum extends Component {
             
 
             </CardActions>
-
-            test ProfileView: {data.Name}
           </Card>
-          <Card className={classes.card}>
+          <Paper className={classes.content} elevation={4}>
 
             <Switch>
               <Route exact path={match.url} render={(routeProps) =>
@@ -83,7 +95,7 @@ export class Forum extends Component {
               />
             </Switch>
 
-          </Card>
+          </Paper>
 
         </section>
 
@@ -108,6 +120,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withStyles(styles)(connect(
+export default withStyles(styles)(withRouter(connect(
   mapStateToProps
-)(Forum));
+)(Forum)));

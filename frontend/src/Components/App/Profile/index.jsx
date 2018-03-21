@@ -2,17 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PrivateRoute from '../../../js/PrivateRoute'
 import { Switch, withRouter } from 'react-router-dom'
-import MyLab from './MyLab'
+import MyFollowing from './MyFollowing'
 import ProfileView from './ProfileView'
 import MyForum from './MyForum'
-import Mates from './Mates'
 import Setting from './Setting'
 
 import { FollowOneUser, GetmyList, GetListFolowed } from '../../../Redux/Actions/followAction';
 // import { gotFollow } from '../../../Redux/Selectors/followSelector';
 import { GetProfile } from '../../../Redux/Actions/getUserInfo';
 import Card, { CardActions, CardMedia } from 'material-ui/Card';
-import { Paper, Button, Typography, Chip, Avatar } from 'material-ui';
+import { Paper, Button, Typography, Chip } from 'material-ui';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import img from '../../../Assets/img/profile.jpg'
@@ -26,7 +25,7 @@ const styles = theme => ({
   },
   content: {
     width: '100%',
-    padding: '5vh 10vh',
+    padding: '5vh 5vh',
   },
   chip: {
     margin: theme.spacing.unit,
@@ -63,7 +62,7 @@ export class Profile extends Component {
   }
 
   render() {
-    let { match, viewer, profile, classes } = this.props
+    let { match, viewer, profile, classes, history } = this.props
 
     const friends = this.props.myFriends.filter(elm => elm.id === profile.id)
     return (
@@ -79,17 +78,17 @@ export class Profile extends Component {
             </Typography>
             <CardActions className={classes.actions}>
               <Button size="small" color="secondary" onClick={() => {
-                this.props.history.push(`${match.url}`)
+                history.push(`${match.url}`)
               }}>
                 Profile
               </Button>
               <Button size="small" color="secondary" onClick={() => {
-                this.props.history.push(`${match.url}/forum`)
+                history.push(`${match.url}/forum`)
               }}>
                 Forums
               </Button>
               <Button size="small" color="secondary" onClick={() => {
-                this.props.history.push(`${match.url}/lab`)
+                history.push(`${match.url}/follow`)
               }}>
                 Follow
               </Button>
@@ -97,7 +96,7 @@ export class Profile extends Component {
                 (viewer === profile.user_id)
                   ?
                   <Button size="small" color="secondary" onClick={() => {
-                    this.props.history.push(`${match.url}/settings`)
+                    history.push(`${match.url}/settings`)
                   }}>
                     Settings
               </Button>
@@ -141,18 +140,13 @@ export class Profile extends Component {
                 />
               }
               />
-              <PrivateRoute path={`${match.url}/lab`} render={(routeProps) =>
-                <MyLab
+              <PrivateRoute path={`${match.url}/follow`} render={(routeProps) =>
+                <MyFollowing
                   {...routeProps}
                 />
               }
               />
-              <PrivateRoute path={`${match.url}/mates`} render={(routeProps) =>
-                <Mates
-                  {...routeProps}
-                />
-              }
-              />
+              
               <PrivateRoute path={`${match.url}/settings`} render={(routeProps) =>
                 <Setting
                   {...routeProps}

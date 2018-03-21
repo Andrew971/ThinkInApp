@@ -3,7 +3,16 @@ import { connect } from 'react-redux';
 import ContentEditable from 'react-contenteditable'
 import { Redirect } from 'react-router-dom'
 import { GetOneLab, UpdateLab,deleteLab } from '../../../../../Redux/Actions/labAction';
+import { Button } from 'material-ui';
+import { withStyles } from 'material-ui/styles';
+import PropTypes from 'prop-types';
+import Delete from 'material-ui-icons/Delete';
 
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  }
+});
 
 export class LabOption extends Component {
   constructor() {
@@ -55,8 +64,7 @@ export class LabOption extends Component {
   }
 
   render() {
-    const { redirect, redirectToReferer } = this.props;
-    const { labId, forumName,path} = this.props
+    const { redirect, redirectToReferer, labId, forumName,path, classes } = this.props;
 
     if (redirect) {
       return <Redirect to={'/'+forumName} />
@@ -94,11 +102,21 @@ export class LabOption extends Component {
             : ''
         }
         {
-          (this.state.status)
-            ? <button onClick={() => { this.getModify() }}>Modify</button>
-            : <button onClick={() => { this.Save() }}>Save</button>
+        (this.state.status)
+            ? <Button className={classes.button} variant="flat" color="default" onClick={() => { this.getModify()}}>
+        Modiy
+        <Delete className={classes.rightIcon} />
+      </Button>
+            : <Button className={classes.button} variant="raised" color="secondary" onClick={() => { this.Save()}}>
+        Save
+        <Delete className={classes.rightIcon} />
+      </Button>
         }
-        <button onClick={() => { this.delete() }}>Delete</button>
+
+        <Button className={classes.button} variant="raised" color="primary" onClick={() => { this.delete()}}>
+        Delete
+        <Delete className={classes.rightIcon} />
+      </Button>
 
       </section>
   
@@ -107,7 +125,9 @@ export class LabOption extends Component {
     
   }
 
-
+  Option.propTypes = {
+    classes: PropTypes.object.isRequired,
+  };
 const mapStateToProps = (state) => {
   console.log(state)
 
@@ -123,6 +143,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(
+export default withStyles(styles)(connect(
   mapStateToProps
-)(LabOption);
+)(LabOption));

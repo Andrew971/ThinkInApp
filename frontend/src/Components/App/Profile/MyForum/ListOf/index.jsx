@@ -1,69 +1,90 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { GetList,ResetRedirect } from '../../../../../Redux/Actions/forumAction';
+import { GetList, ResetRedirect } from '../../../../../Redux/Actions/forumAction';
 
-import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
+import { Button, Avatar,Grid } from 'material-ui';
+import AddIcon from 'material-ui-icons/Add';
+
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  },
+  bigAvatar: {
+    width: '10vh',
+    height: '10vh',
+  }
+});
 
 export class ForumList extends Component {
 
   componentWillMount = () => {
-    const { dispatch } = this.props
+    const { dispatch, userId } = this.props
     dispatch(ResetRedirect())
-    dispatch(GetList(this.props.userId))
+    dispatch(GetList(userId))
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    const { dispatch } = this.props
+    const { dispatch, forumListLoaded, userId } = this.props
 
-    if(!this.props.forumListLoaded) {
-      dispatch(GetList(this.props.userId))
+    if (!forumListLoaded) {
+      dispatch(GetList(userId))
     }
   }
 
   render() {
-    let {match}= this.props
+    let { match, data, forumListLoaded, classes, userId, profile, history } = this.props
 
-    let List = this.props.data.map((forum) => {
+    let List = data.map((forum) => {
       return (
-        <div key={forum.id} className=" col-6 col-md-4 col-lg-2">
-          <div className="media">
-            
-            <Link to={'/forum/'+forum.Name} className="media-heading">{forum.Name}</Link><br />
-          </div>
-        </div>
+        <Grid item key={forum.id} xs md={2}>
+            <Button className={classes.button} onClick={() => { history.push('/forum/' + forum.Name) }}><Avatar
+              className={classes.bigAvatar}
+            >{forum.Name}</Avatar>
+              {forum.Name}
+            </Button>
+        </Grid>
 
       );
     })
 
-    if(this.props.forumListLoaded === false){
-     return(
-<div>Loading</div>
-     ) 
-    }else{
+    if (forumListLoaded === false) {
+      return (
+        <div>Loading</div>
+      )
+    } else {
       return (
 
-        <div className="row">
-  
-              {List}<br />
+        <Grid container alignItems="center" 
+           direction="row" justify="space-around" spacing={16}  >
 
-{
-  (this.props.userId === this.props.profile.user_id)
-  ?<Link to={`${match.url}/addforum`}><i className="fa fa-plus"></i></Link>
-  :''
-}
-               
+          {List}<br />
+
+          {
+            (userId === profile.user_id)
+              ? <Button variant="fab" color="secondary" aria-label="add" className={classes.button} onClick={() => { history.push(`${match.url}/addforum`) }}>
+                <AddIcon />
+              </Button>
+              : ''
+          }
 
 
-          </div>
-  
-  
-  
+
+        </Grid>
+
+
+
       );
     }
-    
+
   }
 }
 
+
+ForumList.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = (state) => {
   // console.log(state)
@@ -71,10 +92,10 @@ const mapStateToProps = (state) => {
     data: state.forum.forumList,
     userId: state.user.id,
     forumListLoaded: state.forum.forumListLoaded,
-    profile:state.user.profile
+    profile: state.user.profile
   };
 };
 
-export default connect(
+export default withStyles(styles)(connect(
   mapStateToProps
-)(ForumList);
+)(ForumList));

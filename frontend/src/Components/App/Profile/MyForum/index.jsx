@@ -15,7 +15,6 @@ export class Forum extends Component {
   render() {
  let {match}= this.props
     return (
-      <section style={{ background: "" }}>
       <Switch>
 
           <Route exact path={`${match.url}`} render={(routeProps) =>
@@ -32,7 +31,6 @@ export class Forum extends Component {
         }
         />
         </Switch>
-      </section>
 
 
     );

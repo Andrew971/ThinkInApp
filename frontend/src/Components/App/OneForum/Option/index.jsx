@@ -2,9 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GetOneForum, deleteForum, UpdateForum } from '../../../../Redux/Actions/forumAction';
 import ContentEditable from 'react-contenteditable'
+import PropTypes from 'prop-types';
+import Delete from 'material-ui-icons/Delete';
 
 import { Redirect } from 'react-router-dom'
+import { Button } from 'material-ui';
+import { withStyles } from 'material-ui/styles';
 
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  }
+});
 export class Option extends Component {
   constructor() {
     super()
@@ -57,7 +66,7 @@ export class Option extends Component {
   }
 
   render() {
-    const { redirect, redirectToReferer, user } = this.props;
+    const { redirect, redirectToReferer, user, classes} = this.props;
 
     if (redirect) {
       return <Redirect to={`${user}/forum`} />
@@ -70,7 +79,7 @@ export class Option extends Component {
 
 
     return (
-      <section>
+      <div>
         <form>
           <ContentEditable
             className="form-control col-md-12"
@@ -98,20 +107,31 @@ export class Option extends Component {
         }
         {
           (this.state.status)
-            ? <button onClick={() => { this.getModify() }}>Modify</button>
-            : <button onClick={() => { this.Save()}}>Save</button>
+            ? <Button className={classes.button} variant="flat" color="default" onClick={() => { this.getModify()}}>
+        Modiy
+        <Delete className={classes.rightIcon} />
+      </Button>
+            : <Button className={classes.button} variant="raised" color="secondary" onClick={() => { this.Save()}}>
+        Save
+        <Delete className={classes.rightIcon} />
+      </Button>
         }
-        <button onClick={() => { this.delete()
-          
-           }}>Delete</button>
 
-      </section>
+        <Button className={classes.button} variant="raised" color="primary" onClick={() => { this.delete()}}>
+        Delete
+        <Delete className={classes.rightIcon} />
+      </Button>
+           
+      </div>
 
     );
   }
 
 }
 
+Option.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = (state) => {
   return {
@@ -123,6 +143,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(
+export default withStyles(styles)(connect(
   mapStateToProps
-)(Option);
+)(Option));

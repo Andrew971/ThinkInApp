@@ -1,34 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
-import { withStyles } from 'material-ui/styles';
 
 import { Typography } from 'material-ui';
 
-import { FollowOneUser, GetmyList, GetListFolowed } from '../../../../Redux/Actions/followAction';
+// import { FollowOneUser, GetmyList, GetListFolowed } from '../../../../Redux/Actions/followAction';
 // import { gotFollow } from '../../../Redux/Selectors/followSelector';
-import { GetProfile } from '../../../../Redux/Actions/getUserInfo';
-const styles = theme => ({
-  card: {
-    width: '100%',
-  },
-  content: {
-    width: '100%',
-    padding: '5vh 10vh',
-  },
-  chip: {
-    margin: theme.spacing.unit,
-  },
-  media: {
-    height: '20vh',
-  },
-});
+// import { GetProfile } from '../../../../Redux/Actions/getUserInfo';
+
 
 export class ProfileView extends Component {
 
 
   render() {
-    let { match, viewer, profile } = this.props
+    let { profile } = this.props
 
 
     return (
@@ -66,7 +51,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withStyles(styles)(withRouter(connect(
+export default withRouter(connect(
   mapStateToProps
-)(ProfileView)))
+)(ProfileView))
   ;

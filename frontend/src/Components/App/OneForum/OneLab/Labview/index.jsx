@@ -1,57 +1,96 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { GetOneLab,ResetRedirect } from '../../../../../Redux/Actions/labAction';
+import { GetOneLab, ResetRedirect } from '../../../../../Redux/Actions/labAction';
 import { FollowOneLab } from '../../../../../Redux/Actions/followAction';
 import LabComments from '../LabComments'
 
-import { Link } from 'react-router-dom'
+import { Typography, Chip, Button } from 'material-ui';
+import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
 
+const styles = theme => ({
+  card: {
+    width: '100%',
+  },
+  actions: {
+    display: 'flex',
+  },
+  content: {
+    width: '100%',
+    padding: '5vh 5vh',
+  },
+  chip: {
+    margin: theme.spacing.unit,
+  },
+  media: {
+    height: '20vh',
+  },
+});
 export class Labview extends Component {
   componentWillMount = () => {
-    const { dispatch } = this.props;
-    localStorage.setItem('prevParams',this.props.match.params.labId)
-    dispatch(GetOneLab(this.props.match.params));
+    const { dispatch, match } = this.props;
+    localStorage.setItem('prevParams', match.params.labId)
+    dispatch(GetOneLab(match.params));
     dispatch(ResetRedirect())
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    const { dispatch } = this.props
+    const { dispatch, match } = this.props
 
-    if (prevProps.match.params !== this.props.match.params) {
-      dispatch(GetOneLab(this.props.match.params));
+    if (prevProps.match.params !== match.params) {
+      dispatch(GetOneLab(match.params));
     }
   }
 
   FollowLab = () => {
-    const { dispatch } = this.props;
-    const { labId } = this.props.match.params
-    dispatch(FollowOneLab({ labId: Number(labId), userId: this.props.viewer }));
+    const { dispatch, match, viewer} = this.props;
+    const { labId } = match.params
+    dispatch(FollowOneLab({ labId: Number(labId), userId: viewer }));
   }
-  
+
   render() {
-    let { match } = this.props
-    let hideFollow = this.props.mylabs.filter(elm => {
-      return elm.id === this.props.data.id
+    let { match, mylabs, data, owner, viewer, classes, history } = this.props
+    let hideFollow = mylabs.filter(elm => {
+      return elm.id === data.id
     })
     return (
       <div>
-        test: ok1
-         <br />
-        {this.props.data.Title}
-        <br />
+        <Typography align="center" variant="headline" component="h1">
+          {data.Title}
+        </Typography>
+        <Typography align="center" component="p">
+          {data.Subject}
+        </Typography>
+
         {
-          (this.props.owner === this.props.viewer)
-            ? <Link to={`${match.url}/option`}>Option</Link>
+          (owner === viewer)
+            ? <Button align="center" size="small" color="secondary" onClick={() => {
+                    history.push(`${match.url}/option`)
+                  }}>Option</Button>
             : ''
         }
         {
-          (this.props.owner !== this.props.viewer)
+          (owner !== viewer)
             ? (hideFollow)
-              ? <button>Followed</button>
-              : <button onClick={() => { this.FollowLab() }}>Followed</button>
+              ? <Chip
+                label="UnFollow"
+                onClick={() => { }}
+                className={classes.chip}
+                color="secondary"
+              />
+              : <Chip
+                label="Follow"
+                onClick={() => { this.FollowLab() }}
+                className={classes.chip}
+                color="secondary"
+              />
             : ''
         }
 
+        <Typography align="justify" component="p">
+          {data.Blog}
+
+        </Typography>
         <LabComments />
       </div>
 
@@ -59,9 +98,12 @@ export class Labview extends Component {
     );
   }
 }
-
+Labview.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return {
     data: state.lab.LabData,
     viewer: state.user.id,
@@ -70,6 +112,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(
+export default withStyles(styles)(connect(
   mapStateToProps
-)(Labview);
+)(Labview));

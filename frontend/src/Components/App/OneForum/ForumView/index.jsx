@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GetOneForum,ResetRedirect } from '../../../../Redux/Actions/forumAction';
 
+import { withRouter } from 'react-router-dom'
+
+import { Typography } from 'material-ui';
 
 export class ForumView extends Component {
 
@@ -21,17 +24,25 @@ export class ForumView extends Component {
   }
 
   render() {
+    let { data } = this.props
 
     return (
-      <div style={{ background: "" }}>
-         test:
-   {this.props.data.Name}
-<br />
+      <div>
+        <Typography align="center" variant="headline" component="h1">
+          Subject:</Typography>
+        <Typography align="center" component="p">
+          {data.Subject}
+        </Typography>
 
 
+        <Typography align="center" component="p">
+          Description:{data.Description}
+
+        </Typography>
 
 
-  </div>
+      </div>
+    
 
 
     );
@@ -47,6 +58,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps
-)(ForumView);
+)(ForumView));
