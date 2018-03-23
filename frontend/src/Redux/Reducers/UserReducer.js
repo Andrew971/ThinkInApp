@@ -2,7 +2,9 @@
 const initialState = {
 	id:'',
 	username: '',
-	profile:{}
+	profile:{},
+	redirectToReferer:false
+
 };
 
 export function UserReducer(state = initialState, action) {
@@ -21,6 +23,14 @@ export function UserReducer(state = initialState, action) {
 				profile: action.payload,
 		
 			};
+
+			case 'PROFILE_UPDATE_SUCCESS':
+      return {
+        ...state,
+        redirectToReferer: action.payload.sta,
+        profile: action.payload.profile
+
+      };
 		case 'RESET_USER':
 			return {
 				...state,

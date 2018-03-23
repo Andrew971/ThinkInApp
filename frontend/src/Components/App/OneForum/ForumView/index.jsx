@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { GetOneForum,ResetRedirect } from '../../../../Redux/Actions/forumAction';
+
 
 import { withRouter } from 'react-router-dom'
 
@@ -8,20 +8,6 @@ import { Typography } from 'material-ui';
 
 export class ForumView extends Component {
 
-  componentWillMount=()=>{
-    const { dispatch } = this.props;
-    localStorage.setItem('prevParams',this.props.match.params.forumName)
-    dispatch(GetOneForum(this.props.match.params));
-    dispatch(ResetRedirect())
-   }
-
-   componentDidUpdate=(prevProps)=>{
-     if(prevProps.match.params !== this.props.match.params){
-      const { dispatch } = this.props;
-      dispatch(GetOneForum(this.props.match.params));
-     }
-  
-  }
 
   render() {
     let { data } = this.props
@@ -34,7 +20,7 @@ export class ForumView extends Component {
           {data.Subject}
         </Typography>
 
-
+        <br />
         <Typography align="center" component="p">
           Description:{data.Description}
 
@@ -42,7 +28,7 @@ export class ForumView extends Component {
 
 
       </div>
-    
+
 
 
     );
@@ -53,8 +39,8 @@ export class ForumView extends Component {
 const mapStateToProps = (state) => {
   return {
     data: state.forum.ForumData,
-    viewer:state.user.id,
-    owner:state.forum.ForumData.user_id
+    viewer: state.user.id,
+    owner: state.forum.ForumData.user_id
   };
 };
 

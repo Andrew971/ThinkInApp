@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { GetOneLab, ResetRedirect } from '../../../../../Redux/Actions/labAction';
-import { FollowOneLab } from '../../../../../Redux/Actions/followAction';
+import { FollowOneLab, unFollowOneLab, GetmyList } from '../../../../../Redux/Actions/followAction';
 import LabComments from '../LabComments'
+
+import { GetOneLab, ResetRedirect, GetComment } from '../../../../../Redux/Actions/labAction';
 
 import { Typography, Chip, Button } from 'material-ui';
 import PropTypes from 'prop-types';
@@ -28,26 +29,43 @@ const styles = theme => ({
 });
 export class Labview extends Component {
   componentWillMount = () => {
-    const { dispatch, match } = this.props;
-    localStorage.setItem('prevParams', match.params.labId)
+    const { dispatch, match, viewer,data } = this.props;
+    localStorage.setItem('prevParamslab', match.params.labId)
     dispatch(GetOneLab(match.params));
     dispatch(ResetRedirect())
+    dispatch(GetmyList(viewer))
+    dispatch(GetComment({ labId: data.id }));
+
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    const { dispatch, match } = this.props
+    const { dispatch, match, viewer,data } = this.props
+   
+    console.log(prevProps.labid, Number(match.params.labId))
 
-    if (prevProps.match.params !== match.params) {
+    if ((Object.keys(prevProps.data).length === 0) || 
+    (prevProps.labid !== Number(match.params.labId))) {
       dispatch(GetOneLab(match.params));
+      dispatch(GetmyList(viewer))
+       
     }
+
+
+  
   }
 
   FollowLab = () => {
-    const { dispatch, match, viewer} = this.props;
+    const { dispatch, match, viewer } = this.props;
     const { labId } = match.params
-    dispatch(FollowOneLab({ labId: Number(labId), userId: viewer }));
+    dispatch(FollowOneLab({ labid: Number(labId), userId: viewer }));
   }
 
+  UnFollowLab = () => {
+    const { dispatch, viewer, match } = this.props;
+    const { labId } = match.params
+
+    dispatch(unFollowOneLab({ user_id: viewer, labid: Number(labId) }));
+  }
   render() {
     let { match, mylabs, data, owner, viewer, classes, history } = this.props
     let hideFollow = mylabs.filter(elm => {
@@ -63,27 +81,29 @@ export class Labview extends Component {
         </Typography>
 
         {
-          (owner === viewer)
+          (owner.user_id === viewer)
             ? <Button align="center" size="small" color="secondary" onClick={() => {
-                    history.push(`${match.url}/option`)
-                  }}>Option</Button>
+              history.push(`${match.url}/option`)
+            }}>Option</Button>
             : ''
         }
         {
-          (owner !== viewer)
-            ? (hideFollow)
-              ? <Chip
-                label="UnFollow"
-                onClick={() => { }}
-                className={classes.chip}
-                color="secondary"
-              />
-              : <Chip
-                label="Follow"
-                onClick={() => { this.FollowLab() }}
-                className={classes.chip}
-                color="secondary"
-              />
+          (viewer)
+            ? (owner.user_id !== viewer)
+              ? (hideFollow.length !== 0)
+                ? <Chip
+                  label="UnFollow"
+                  onClick={() => { this.UnFollowLab() }}
+                  className={classes.chip}
+                  color="secondary"
+                />
+                : <Chip
+                  label="Follow"
+                  onClick={() => { this.FollowLab() }}
+                  className={classes.chip}
+                  color="secondary"
+                />
+              : ''
             : ''
         }
 
@@ -98,17 +118,20 @@ export class Labview extends Component {
     );
   }
 }
+
 Labview.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
-  console.log(state)
+  // console.log(state)
   return {
     data: state.lab.LabData,
     viewer: state.user.id,
-    owner: state.lab.LabData.user_id,
-    mylabs: state.follow.FollowedLab
+    owner: state.lab.LabData,
+    mylabs: state.follow.MyListLabs,
+    labid:state.lab.LabData.id,
+
   };
 };
 

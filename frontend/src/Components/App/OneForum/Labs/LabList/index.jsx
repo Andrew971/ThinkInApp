@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GetList } from '../../../../../Redux/Actions/labAction';
-import { GetOneForum } from '../../../../../Redux/Actions/forumAction';
+// import { GetOneForum } from '../../../../../Redux/Actions/forumAction';
 
 
 // import { Link, withRouter } from 'react-router-dom'
@@ -21,57 +21,61 @@ const styles = theme => ({
 });
 export class LabList extends Component {
   componentWillMount = () => {
-    const { dispatch,redirect,forumId } = this.props
-
-    const forum = localStorage.getItem('prevParams')
-    if (!redirect) {
-      dispatch(GetOneForum({ forumName: forum }));
-    }
-
+    const { dispatch,forumId } = this.props
     dispatch(GetList(forumId))
-
+    
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    const { dispatch,labListLoaded,forumId } = this.props
-    if (!labListLoaded) {
+    const { dispatch,labList,forumId,match } = this.props
+    if (labList.length === 0) {
+      dispatch(GetList(forumId))
+    }
+    if (prevProps.match.params !== match.params) {
       dispatch(GetList(forumId))
     }
   }
 
   render() {
-    let { match, forumName, owner, viewer, labListLoaded, data,classes,history } = this.props
+    let { match, forumName, owner, viewer, labList, data,classes,history } = this.props
 
     let List = data.map((lab) => {
       return (
 
-         <Grid item key={lab.id} xs md={2}>
+         <Grid item key={lab.id} xs={6} md={4}>
+        <Grid container alignItems="center"
+            direction="column" justify="center" spacing={16}>
+              <Grid item xs={12} md={12}  align="center">
             <Button className={classes.button} onClick={() => { history.push('/forum/' + forumName + '/labs/' + lab.id) }}><Avatar
               className={classes.bigAvatar}
-            >TN</Avatar>
-            {lab.Title}
+            >{lab.Title}</Avatar>
             </Button>
-        </Grid>
-      );
+            </Grid>
+              <Grid item xs={12} md={12} align="center">
+              {lab.Title}
+              </Grid>
+              </Grid>
+            
+        </Grid>      );
     })
 
-    if (labListLoaded === false) {
+    if (!labList) {
       return (
         <div>Loading</div>
       )
     } else {
       return (
 
-          <Grid container alignItems="center" 
-           direction="row" justify="space-around" spacing={16}  >
+           <Grid container alignItems="flex-start"
+          direction="row" justify="space-around" spacing={16}>
 
           {List}<br />
 
           {
             (viewer === owner)
-              ? <Button variant="fab" color="secondary" aria-label="add" className={classes.button} onClick={() => { history.push(`${match.url}/addlab`) }}>
+              ? <Grid item xs={6} md={12} align="right"><Button variant="fab" color="primary" aria-label="add" className={classes.fab} onClick={() => { history.push(`${match.url}/addlab`) }}>
                 <AddIcon />
-              </Button>
+              </Button></Grid>
               : ''
           }
 
@@ -90,13 +94,16 @@ LabList.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+    // console.log(state)
+
   return {
     data: state.lab.labList,
     forumId: state.forum.ForumData.id,
     labListLoaded: state.lab.labListLoaded,
     forumName: state.forum.ForumData.Name,
     viewer: state.user.id,
-    owner: state.forum.ForumData.user_id
+    owner: state.forum.ForumData.user_id,
+    labList:state.lab.labList
   };
 };
 

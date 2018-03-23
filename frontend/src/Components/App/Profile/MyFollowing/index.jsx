@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import { GetListFolowed,GetmyList  } from '../../../../Redux/Actions/followAction';
+import { GetmyList,GetListFolowed  } from '../../../../Redux/Actions/followAction';
+
 
 import Tabs, { Tab } from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
 import PropTypes from 'prop-types';
-import { withStyles ,Typography, Grid, Avatar, Button } from 'material-ui';
+import { withStyles, Typography, Grid, Avatar, Button } from 'material-ui';
 
 function TabContainer({ children, dir }) {
   return (
@@ -37,22 +38,22 @@ export class MyFollowing extends Component {
   state = {
     value: 0,
   };
-  // componentDidMount = () => {
-  //   const { dispatch } = this.props
-  //   dispatch(GetListFolowed(this.props.userId))
-  //   dispatch(GetmyList(this.props.owner))
+  componentDidMount = () => {
+    const { dispatch } = this.props
+    dispatch(GetListFolowed(this.props.userId))
+    dispatch(GetmyList(this.props.owner))
 
-  // }
+  }
 
-  // componentDidUpdate = (prevProps, prevState) => {
-  //   const { dispatch } = this.props
-  //   if (!this.props.listLoaded) {
-  //     dispatch(GetListFolowed(this.props.userId))
+  componentDidUpdate = (prevProps, prevState) => {
+    const { dispatch } = this.props
+    if (!this.props.listLoaded) {
+      dispatch(GetListFolowed(this.props.userId))
 
-  //     dispatch(GetmyList(this.props.owner))
-  //   }
+      dispatch(GetmyList(this.props.owner))
+    }
 
-  // }
+  }
 
   // componentWillUnmount=()=>{
 
@@ -71,26 +72,45 @@ export class MyFollowing extends Component {
 
     let ListLab = Labs.map((lab) => {
       return (
-        <Grid item key={lab.id} xs md={2}>
-        <Button className={classes.button} onClick={() => { history.push(`${lab.Path}${lab.id}`) }}>
-            {lab.Title}
-          </Button>
+        <Grid item key={lab.id} xs={7} md={4}>
+          <Grid container alignItems="center"
+            direction="column" justify="center" spacing={16}>
+            <Grid item xs={12} md={12} align="center">
+
+              <Button className={classes.button} onClick={() => { history.push(`/forum${lab.Path}${lab.id}`) }}><Avatar
+                className={classes.bigAvatar}
+              >{lab.Title}</Avatar>
+
+              </Button>
+            </Grid>
+            <Grid item xs={12} md={12} align="center">
+              {lab.Title}
+            </Grid>
+          </Grid>
 
         </Grid>
 
       );
     })
-    let ListUser = User.map((lab) => {
+    let ListUser = User.map((user) => {
       return (
-        <Grid item key={lab.id} xs md={2}>
-        
-        <Button className={classes.button} onClick={() => { history.push(lab.link) }}><Avatar
-              className={classes.bigAvatar}
-            >TN</Avatar>
-        {`${lab.first_name} ${lab.last_name}`}
-          </Button>
-        </Grid>
+        <Grid item key={user.id} xs={7} md={4}>
+          <Grid container alignItems="center"
+            direction="column" justify="center" spacing={16}>
+            <Grid item xs={12} md={12} align="center">
+              
+              <Button className={classes.button} onClick={() => { history.push(user.link) }}><Avatar
+                className={classes.bigAvatar}
+              >TN</Avatar>
 
+              </Button>
+            </Grid>
+            <Grid item xs={12} md={12} align="center">
+              {`${user.first_name} ${user.last_name}`}
+            </Grid>
+          </Grid>
+
+        </Grid>
       );
     })
 
@@ -104,8 +124,8 @@ export class MyFollowing extends Component {
           <Tabs
             value={this.state.value}
             onChange={this.handleChange}
-            indicatorColor="secondary"
-            textColor="secondary"
+            indicatorColor="primary"
+            textColor="primary"
             fullWidth
             centered
           >
@@ -119,15 +139,15 @@ export class MyFollowing extends Component {
             onChangeIndex={this.handleChangeIndex}
           >
             <TabContainer dir={theme.direction}>
-            <Grid container alignItems="center" 
-           direction="row" justify="space-around" spacing={16}  >
+              <Grid container alignItems="flex-start"
+                direction="row" justify="space-around" spacing={16}  >
                 {ListUser}
 
               </Grid>
             </TabContainer>
             <TabContainer dir={theme.direction}>
-            <Grid container alignItems="center" 
-           direction="row" justify="space-around" spacing={16}  >
+              <Grid container alignItems="flex-start"
+                direction="row" justify="space-around" spacing={16}  >
                 {ListLab}
               </Grid>
             </TabContainer>

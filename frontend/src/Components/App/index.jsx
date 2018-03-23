@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Nav from './Nav'
+import Navbar from './Navbar'
 import { Route, Switch,withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { GetUserInfo, ClearUserInfo } from '../../Redux/Actions/getUserInfo';
@@ -36,7 +36,7 @@ componentWillMount=()=>{
 
     return (
       <div className="">
-        <Nav history={this.props.history}/>
+        <Navbar history={this.props.history}/>
         <Switch>
           <Route exact path='/' render={(routeProps) =>
             <Log

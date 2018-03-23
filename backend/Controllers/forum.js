@@ -3,6 +3,7 @@ const User = require('../Models/Users')
 const Lab = require('../Models/Labs')
 const FoLab = require('../Models/FoLabs')
 const Comment = require('../Models/Comments')
+const Profile = require('../Models/Profiles')
 
 function AddForum(userId, name, subject, description, cb) {
 
@@ -79,10 +80,18 @@ function GetForum(user_id, cb) {
 }
 
 function GetOneForum(name, cb) {
+	
 	Forum.where({ Name: name })
 		.fetch()
-		.then(user => {
-			cb(user.attributes)
+		.then(forum => {
+			Profile.where({ user_id: forum.attributes.user_id })
+			.fetch()
+			.then(profile => {
+				cb({
+					profile: profile.attributes,
+					forum: forum.attributes
+				})
+			})
 		})
 }
 module.exports = { AddForum, RemoveForum, UpdateForum, GetForum, GetOneForum }

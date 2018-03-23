@@ -17,7 +17,6 @@ export function ForumReducer(state = initialState, action) {
         goto: action.payload.forumName
       };
     case 'GET_FORUM_LIST_SUCCESS':
-   
       return {
         ...state,
         forumList: action.payload,

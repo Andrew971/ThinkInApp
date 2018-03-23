@@ -3,7 +3,9 @@ const initialState = {
   FollowedLab: [],
   listLoaded:false,
   FollowedUser:[],
-  MyListuser:[]
+  MyListUsers:[],
+  MyListLabs:[]
+
 };
 
 export function followReducer(state = initialState, action) {
@@ -18,7 +20,8 @@ export function followReducer(state = initialState, action) {
       case 'MY_LIST_SUCCESS':
           return  {
               ...state,
-              MyListuser: action.payload.users,
+              MyListUsers: action.payload.users,
+              MyListLabs: action.payload.labs,
               listLoaded:true,
           };
       default:

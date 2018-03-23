@@ -1,7 +1,6 @@
 body {
   margin: 0;
   font-family: 'Scada', sans-serif;
-  overflow: hidden;
   -webkit-transition: all 1s ease-in;
   -moz-transition: all 1s ease-in;
   -ms-transition: all 1s ease-in;
@@ -12,12 +11,6 @@ body {
   body a:hover {
     color: black; }
 
-.container-fluid {
-  padding: 0; }
-
-.row {
-  margin: 0; }
-
 section {
   height: 100%;
   width: 100%;
@@ -27,7 +20,7 @@ section {
 aside {
   width: 7.5vh;
   min-height: 95vh;
-  background-color: rgba(31, 164, 204, 0.87);
+  background-color: #4CAF50;
   color: #555454;
   position: fixed;
   top: 6vh;
@@ -64,11 +57,8 @@ aside a {
 
 main {
   color: #555454;
-  position: absolute;
   width: 100%;
-  height: 100vh;
-  background-color: rgba(255, 255, 255, 0.178);
-  overflow: auto; }
+  background-color: rgba(255, 255, 255, 0.178); }
 
 .time h1 {
   font-size: 5rem; }
@@ -79,7 +69,7 @@ main {
 .dash_icon {
   width: 6rem;
   height: 6rem;
-  background: rgba(31, 164, 204, 0.87);
+  background: #4CAF50;
   color: #555454;
   font-size: 3rem;
   padding: 2rem;
@@ -113,7 +103,7 @@ main {
   opacity: 1; }
 
 .result_box {
-  background-color: rgba(31, 164, 204, 0.87);
+  background-color: #4CAF50;
   width: 100%;
   height: 20vh;
   position: relative;
@@ -121,7 +111,7 @@ main {
   overflow-x: hidden;
   overflow-y: auto;
   color: #555454;
-  box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.63);
+  box-shadow: inset 0 0 2px 0 rgba(20, 20, 20, 0.63);
   z-index: 1;
   -webkit-transition: all 1s ease-in-out;
   -moz-transition: all 1s ease-in-out;

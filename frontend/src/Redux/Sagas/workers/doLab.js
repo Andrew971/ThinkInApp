@@ -18,8 +18,11 @@ export function* GetList(action) {
 }
 
 export function* GetOneLab(action) {
+
 	const res = yield call(axios.post, apiUrl + 'getone', { id: action.info.labId })
-	yield put({ type: 'GET_ONE_LAB_SUCCESS', payload: res.data })
+	yield put({ type: 'GET_ONE_LAB_SUCCESS', payload: res.data.lab })
+	yield put({ type: 'PROFILE_LOADED', payload: res.data.profile })
+	yield put({ type: 'GET_ONE_FORUM_SUCCESS', payload: res.data.forum })
 
 }
 

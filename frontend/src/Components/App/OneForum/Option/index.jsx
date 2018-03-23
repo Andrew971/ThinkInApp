@@ -111,13 +111,13 @@ export class Option extends Component {
         Modiy
         <Delete className={classes.rightIcon} />
       </Button>
-            : <Button className={classes.button} variant="raised" color="secondary" onClick={() => { this.Save()}}>
+            : <Button className={classes.button} variant="raised" color="primary" onClick={() => { this.Save()}}>
         Save
         <Delete className={classes.rightIcon} />
       </Button>
         }
 
-        <Button className={classes.button} variant="raised" color="primary" onClick={() => { this.delete()}}>
+        <Button className={classes.button} variant="raised" color="secondary" onClick={() => { this.delete()}}>
         Delete
         <Delete className={classes.rightIcon} />
       </Button>

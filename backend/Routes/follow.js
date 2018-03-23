@@ -17,20 +17,35 @@ router.post('/', jsonParser, (req, res) => {
 
 })
 
-router.post('/lab', jsonParser, (req, res) => {
-  let {labId,userId}=req.body
+router.post('/undo', jsonParser, (req, res) => {
+  let {user_id,foUser_id}=req.body
 
-  Follow.AddFoLab(userId,labId)
+  Follow.deleteFoUser(user_id,foUser_id)
+
+})
+router.post('/lab/undo', jsonParser, (req, res) => {
+  let {user_id,foUser_id}=req.body
+
+  console.log('undo')
+
+  Follow.deleteFoLab(user_id,foUser_id)
 
 })
 
-router.post('/getlist', jsonParser, (req, res) => {
+router.post('/lab', jsonParser, (req, res) => {
+  // let {labId}= req.params
+  // let {userId}=req.body
+
+  console.log(req.body)
+res.json('ok')
+  // Follow.AddFoLab(userId,labId)
+
+})
+
+router.post('/getlisto', jsonParser, (req, res) => {
   let {userId}=req.body
 if(userId){
-  console.log(userId)
-
   Follow.GetListFoUser(userId, (user)=>{
-console.log(user)
         res.json({labs:user.labs, users:user.users})
       })
 }    

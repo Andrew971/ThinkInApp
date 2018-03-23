@@ -11,6 +11,13 @@ export function GetProfile(info) {
       username: info
   };
 }
+export function UpdateProfile(info) {
+  return {
+      type: 'UPDATE_PROFILE_REQUESTED',
+      info: info
+  };
+}
+
 export function ClearUserInfo(info) {
   return {
       type: 'RESET_USER',

@@ -74,13 +74,20 @@ if(username){
     res.json(info)
   })
 }
-
-
 })
+
+router.post('/profile/update/:profileId', (req, res) => {
+  let { profileId } = req.params
+  let { first,last, age, bio } = req.body
+	user.UpdateProfile(Number(profileId), first,last, age, bio, (forum) => {
+		res.json(forum)
+	})
+  })
 
 
 router.post('/', (req, res) => {
   const token = req.headers.authorization
+
   jwt.verify(token, secretkey, (err, decoded) => {
     if (err) {
 

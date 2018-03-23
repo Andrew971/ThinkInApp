@@ -6,17 +6,21 @@ import MyFollowing from './MyFollowing'
 import ProfileView from './ProfileView'
 import MyForum from './MyForum'
 import Setting from './Setting'
-
-import { FollowOneUser, GetmyList, GetListFolowed } from '../../../Redux/Actions/followAction';
-// import { gotFollow } from '../../../Redux/Selectors/followSelector';
+import { GetList } from '../../../Redux/Actions/forumAction';
+import { GetmyList } from '../../../Redux/Actions/followAction';
+import { unFollowOneUser, FollowOneUser, GetListFolowed } from '../../../Redux/Actions/followAction';
 import { GetProfile } from '../../../Redux/Actions/getUserInfo';
 import Card, { CardActions, CardMedia } from 'material-ui/Card';
-import { Paper, Button, Typography, Chip } from 'material-ui';
+import { Paper, Button, Typography, Chip, Grid } from 'material-ui';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import img from '../../../Assets/img/profile.jpg'
 
 const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    marginTop: '0',
+  },
   card: {
     width: '100%',
   },
@@ -37,23 +41,33 @@ const styles = theme => ({
 
 export class Profile extends Component {
   componentDidMount = () => {
-    const { dispatch, profile } = this.props
+    const { dispatch,match,viewer } = this.props
     // localStorage.setItem('prevPath', this.props.location.pathname)
-    dispatch(GetListFolowed(profile.user_id))
-    dispatch(GetProfile(this.props.match.params.username));
-  }
+    dispatch(GetProfile(match.params.username));
+    dispatch(GetmyList(viewer))
 
+  }
+  
   componentDidUpdate = (prevProps) => {
-    const { dispatch, profile, owner } = this.props
+    const { dispatch, profile, match, location, viewer } = this.props
     if (prevProps.profile !== profile) {
       dispatch(GetListFolowed(profile.user_id))
+      dispatch(GetmyList(viewer))
+
+    }
+    if (prevProps.location.pathname !== location.pathname) {
+      dispatch(GetProfile(match.params.username));
+      dispatch(GetList(profile.user_id))
+      dispatch(GetmyList(viewer))
 
     }
 
-    if (prevProps.location.pathname !== this.props.location.pathname) {
-      dispatch(GetProfile(this.props.match.params.username));
-      dispatch(GetmyList(owner))
+    if (prevProps.match.params !== match.params) {
+      dispatch(GetProfile(match.params.username));
+      dispatch(GetList(profile.user_id))
+
     }
+   
   }
 
   FollowOneUser = () => {
@@ -61,33 +75,39 @@ export class Profile extends Component {
     dispatch(FollowOneUser({ user_id: viewer, foUser_id: profile.user_id }));
   }
 
-  render() {
-    let { match, viewer, profile, classes, history } = this.props
+  UnFollowOneUser = () => {
+    const { dispatch, viewer, profile } = this.props;
+    dispatch(unFollowOneUser({ user_id: viewer, foUser_id: profile.user_id }));
+  }
 
-    const friends = this.props.myFriends.filter(elm => elm.id === profile.id)
+  render() {
+    let { match, viewer, profile, classes, history, myFriends } = this.props
+
+    const friends = myFriends.filter(elm => elm.id === profile.id)
     return (
-      <main>
-        <section style={{ background: "" }}>
+      <Grid component="main" style={{ background: "" }} className={classes.root} container alignItems="center"
+        direction="row" justify="center" spacing={16}>
+        <Grid item xs={10} md={9}>
           <Card className={classes.card} align="center">
-            
+
             <CardMedia className={classes.media}
               image={img}
               title="Contemplative Reptile" />
-              <Typography variant="display2" component="h1" align="center">
+            <Typography variant="display2" component="h1" align="center">
               {profile.first_name} {profile.last_name}
             </Typography>
             <CardActions className={classes.actions}>
-              <Button size="small" color="secondary" onClick={() => {
+              <Button size="small" color="primary" onClick={() => {
                 history.push(`${match.url}`)
               }}>
                 Profile
               </Button>
-              <Button size="small" color="secondary" onClick={() => {
+              <Button size="small" color="primary" onClick={() => {
                 history.push(`${match.url}/forum`)
               }}>
                 Forums
               </Button>
-              <Button size="small" color="secondary" onClick={() => {
+              <Button size="small" color="primary" onClick={() => {
                 history.push(`${match.url}/follow`)
               }}>
                 Follow
@@ -95,7 +115,7 @@ export class Profile extends Component {
               {
                 (viewer === profile.user_id)
                   ?
-                  <Button size="small" color="secondary" onClick={() => {
+                  <Button size="small" color="primary" onClick={() => {
                     history.push(`${match.url}/settings`)
                   }}>
                     Settings
@@ -113,8 +133,8 @@ export class Profile extends Component {
                         color="secondary"
                       />
                       : <Chip
-                        label="followed"
-                        onClick={() => { }}
+                        label="Unfollow"
+                        onClick={() => { this.UnFollowOneUser() }}
                         className={classes.chip}
                         color="secondary"
                       />
@@ -146,7 +166,7 @@ export class Profile extends Component {
                 />
               }
               />
-              
+
               <PrivateRoute path={`${match.url}/settings`} render={(routeProps) =>
                 <Setting
                   {...routeProps}
@@ -156,11 +176,8 @@ export class Profile extends Component {
             </Switch>
 
           </Paper>
-
-        </section>
-
-
-      </main>
+        </Grid>
+      </Grid>
     );
   }
 }
@@ -170,16 +187,16 @@ Profile.propTypes = {
 
 const mapStateToProps = (state) => {
   // console.log(state)
+
   return {
     viewer: state.user.id,
     profile: state.user.profile,
     logged: state.login.logged,
-    myFriends: state.follow.MyListuser,
+    myFriends: state.follow.MyListUsers,
     Labs: state.follow.FollowedLab,
     User: state.follow.FollowedUser,
     userId: state.user.profile.user_id,
-    owner: state.user.id
-
+    viewerName: state.user.username
   };
 };
 

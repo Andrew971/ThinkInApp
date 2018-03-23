@@ -4,15 +4,19 @@ import Labs from './Labs'
 import Option from './Option'
 import ForumView from './ForumView'
 import PrivateRoute from '../../../js/PrivateRoute'
-
-import { Switch, Route , withRouter} from 'react-router-dom'
+import { GetOneForum, ResetRedirect } from '../../../Redux/Actions/forumAction';
+import { Switch, Route, withRouter } from 'react-router-dom'
 import Card, { CardActions, CardMedia } from 'material-ui/Card';
-import {Paper, Button, Typography} from 'material-ui';
+import { Paper, Button, Typography, Grid } from 'material-ui';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import img from '../../../Assets/img/profile.jpg'
 
 const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    marginTop: '0',
+  },
   card: {
     width: '100%',
   },
@@ -33,17 +37,37 @@ const styles = theme => ({
 
 export class Forum extends Component {
 
+  componentWillMount = () => {
+    const { dispatch } = this.props;
+    localStorage.setItem('prevParams',this.props.match.params.forumName)
+    dispatch(GetOneForum(this.props.match.params));
+    dispatch(ResetRedirect())
+  }
+
+  componentDidUpdate = (prevProps) => {
+    const { dispatch,match } = this.props;
+
+    if (prevProps.match !== match) {
+      dispatch(GetOneForum(match.params));
+    }
+
+  
+
+  }
 
   render() {
     let { match, viewer, profile, classes, data } = this.props
     return (
-      <main>
-        <section style={{ background: "" }}>
+     
+      <Grid component="main" style={{ background: "" }}className={classes.root} container alignItems="center"
+        direction="row" justify="center" spacing={16}>
+        <Grid item xs={10} md={9}>
+
           <Card className={classes.card}>
             <CardMedia className={classes.media}
               image={img}
               title="Contemplative Reptile" />
-              <Typography variant="display2" component="h1" align="center">
+            <Typography variant="display2" component="h1" align="center">
               {data.Name}
             </Typography>
             <CardActions>
@@ -67,7 +91,7 @@ export class Forum extends Component {
               </Button>
                   : ''
               }
-            
+
 
             </CardActions>
           </Card>
@@ -96,12 +120,9 @@ export class Forum extends Component {
             </Switch>
 
           </Paper>
+        </Grid>
 
-        </section>
-
-
-      </main>
-
+      </Grid>
     );
   }
 }
@@ -111,12 +132,12 @@ Forum.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+  // console.log(state)
   return {
     data: state.forum.ForumData,
     viewer: state.user.id,
     profile: state.user.profile,
-    owner:state.forum.ForumData.user_id
-
+    owner: state.forum.ForumData.user_id,
   };
 };
 

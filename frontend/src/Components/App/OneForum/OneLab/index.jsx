@@ -4,37 +4,41 @@ import LabOption from './LabOption'
 import Labview from './Labview'
 import PrivateRoute from '../../../../js/PrivateRoute'
 import { GetOneForum } from '../../../../Redux/Actions/forumAction';
-
+import { GetmyList } from '../../../../Redux/Actions/followAction';
 import { Switch, Route, withRouter } from 'react-router-dom'
+import { GetOneLab } from '../../../../Redux/Actions/labAction';
 
-export class OneForum extends Component {
+export class OneLab extends Component {
+  componentDidUpdate = (prevProps, prevState) => {
+    const { dispatch, match, viewer, labid } = this.props
+    // if (prevProps.labid === undefined || prevProps.labid !== Number(match.params.labId)) {
+    //   dispatch(GetOneLab(match.params));
+    //   dispatch(GetmyList(viewer))
+    // }
 
-  componentDidUpdate=(prevProps)=>{
-    if(prevProps.match.params !== this.props.match.params){
-     const { dispatch } = this.props;
-     dispatch(GetOneForum(this.props.match.params));
-    }
   }
-  render() {
-    let {match}= this.props
-    return (
-       <div>
-       
-   <Switch>
-   <Route exact path={match.url} render={(routeProps)=>
-          <Labview 
-          {...routeProps}
-          match={match}
-          />
-        }
-        />
 
-        <PrivateRoute path={`${match.url}/option`} render={(routeProps)=>
-          <LabOption 
-          {...routeProps}
+  render() {
+    let { match } = this.props
+ 
+    return (
+      <div>
+
+        <Switch>
+          <Route exact path={match.url} render={(routeProps) =>
+            <Labview
+              {...routeProps}
+              match={match}
+            />
+          }
           />
-        }
-        />    
+
+          <PrivateRoute path={`${match.url}/option`} render={(routeProps) =>
+            <LabOption
+              {...routeProps}
+            />
+          }
+          />
         </Switch>
       </div>
 
@@ -45,10 +49,13 @@ export class OneForum extends Component {
 
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return {
+    data: state.forum.ForumData,
+    viewer: state.user.id
   };
 };
 
 export default withRouter(connect(
   mapStateToProps
-)(OneForum));
+)(OneLab));

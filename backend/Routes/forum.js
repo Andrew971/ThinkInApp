@@ -10,36 +10,38 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 router.post('/getlist', jsonParser, (req, res) => {
 	let data = req.body
-	let {userId, name, subject, description} = req.body
-
-	forum.GetForum(userId,(forum)=>{
-		res.json(forum.forums)
-	})
+	let { userId } = req.body
+	if (userId) {
+		forum.GetForum(userId, (forum) => {
+			res.json(forum.forums)
+		})
+	}
 })
 
 router.post('/getone', jsonParser, (req, res) => {
-	let data = req.body
-	let {name} = req.body
+	let { name } = req.body
+	if (name.forumName) {
+		forum.GetOneForum(name.forumName, (data) => {
+			res.json(data)
+		})
+	}
 
-	forum.GetOneForum(name.forumName,(forum)=>{
-		res.json(forum)
-	})
 })
 
 
 router.post('/', jsonParser, (req, res, body) => {
-  let {userId, name, subject, description} = req.body	
+	let { userId, name, subject, description } = req.body
 
-  forum.AddForum(userId, name, subject, description,(result)=>{
-		res.json({redirect:true, forumName:result.forumName})
+	forum.AddForum(userId, name, subject, description, (result) => {
+		res.json({ redirect: true, forumName: result.forumName })
 	})
 })
 
 router.post('/:forumId', jsonParser, (req, res, body) => {
 	let { forumId } = req.params
 
-	
-	forum.RemoveForum(Number(forumId),(forum)=>{
+
+	forum.RemoveForum(Number(forumId), (forum) => {
 		res.json(forum.status)
 	})
 
@@ -49,10 +51,13 @@ router.post('/:forumId', jsonParser, (req, res, body) => {
 
 router.post('/update/:forumId', jsonParser, (req, res, body) => {
 	let { forumId } = req.params
-	let {name,subject, description} = req.body
-	forum.UpdateForum(Number(forumId),name,subject,description,(forum)=>{
-		res.json(forum)
-	})
+	let { name, subject, description } = req.body
+	if(forumId){
+		forum.UpdateForum(Number(forumId), name, subject, description, (forum) => {
+			res.json(forum)
+		})
+	}
+
 })
 
 

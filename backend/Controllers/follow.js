@@ -27,6 +27,28 @@ function AddFoUser(user_id, foUser_id) {
   newFoUser.save()
     .then()
 }
+function deleteFoUser(user_id, foUser_id) {
+
+  FoUser.where({ user_id: user_id,foUser_id:foUser_id })
+  .destroy()
+  .then(() => {
+   
+  }).catch(err => {
+    
+  })
+}
+function deleteFoLab(user_id, foUser_id) {
+
+  FoLab.where({ user_id: user_id,foUser_id:foUser_id })
+  .destroy()
+  .then(() => {
+   
+  }).catch(err => {
+    
+  })
+}
+
+
 
 function GetListFoLab(id, cb) {
 
@@ -79,7 +101,6 @@ function GetListFoUser(id, cb) {
           })
         })
     }).catch(err => {
-      console.log(err)
       cb({
         users: [],
         labs: [],
@@ -88,4 +109,4 @@ function GetListFoUser(id, cb) {
 
 }
 
-module.exports = { AddFoLab, GetListFoLab, AddFoUser, GetListFoUser }
+module.exports = { AddFoLab, GetListFoLab, AddFoUser, GetListFoUser, deleteFoUser,deleteFoLab }

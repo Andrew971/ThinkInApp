@@ -24,7 +24,7 @@ export class ProfileView extends Component {
           {profile.bio}
         </Typography>
 
-
+<br />
         <Typography align="center" component="p">
           age:{profile.age}
         </Typography>
@@ -37,7 +37,7 @@ export class ProfileView extends Component {
 
 
 const mapStateToProps = (state) => {
-  console.log(state)
+  // console.log(state)
   return {
     viewer: state.user.id,
     profile: state.user.profile,

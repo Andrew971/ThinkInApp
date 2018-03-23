@@ -19,7 +19,9 @@ export function* GetList(action) {
 
 export function* GetOneforum(action) {
 	const res = yield call(axios.post, apiUrl + 'getone', { name: action.info })
-	yield put({ type: 'GET_ONE_FORUM_SUCCESS', payload: res.data })
+	yield put({ type: 'GET_ONE_FORUM_SUCCESS', payload: res.data.forum })
+	yield put({ type: 'PROFILE_LOADED', payload: res.data.profile })
+
 
 }
 

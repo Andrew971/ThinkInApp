@@ -9,27 +9,33 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 
 router.post('/getlist', jsonParser, (req, res) => {
-	let {forumId} = req.body
-	lab.GetLab(forumId,(lab)=>{
-		res.json(lab.labs)
-	})
+	let { forumId } = req.body
+	if (forumId) {
+		lab.GetLab(forumId, (lab) => {
+			res.json(lab.labs)
+		})
+	}
 })
 
 router.post('/getone', jsonParser, (req, res) => {
-	let {id} = req.body
-if(id){
-	lab.GetOneLab(id,(lab)=>{
-		res.json(lab)
-	})
-}	
+	let { id } = req.body
+	if (id) {
+		lab.GetOneLab(id, (data) => {
+			res.json(data)
+		})
+	} else {
+		res.json({profile: {},
+			forum: {},
+			lab: {}})
+	}
 })
 
 
 router.post('/', jsonParser, (req, res, body) => {
-  let {forumId, title, subject, blog, forumName, owner} = req.body	
+	let { forumId, title, subject, blog, forumName, owner } = req.body
 
-  lab.AddLab(forumId, title, subject, blog,forumName, owner,(result)=>{
-		res.json({redirect:true, LabId:result.LabId})
+	lab.AddLab(forumId, title, subject, blog, forumName, owner, (result) => {
+		res.json({ redirect: true, LabId: result.LabId })
 	})
 })
 
@@ -37,38 +43,40 @@ router.post('/:labId', jsonParser, (req, res, body) => {
 	let { labId } = req.params
 
 
-	lab.RemoveLab(Number(labId),(lab)=>{
+	lab.RemoveLab(Number(labId), (lab) => {
 		res.json(lab.status)
 	})
 
 })
 
 router.post('/comment/:labId', jsonParser, (req, res, body) => {
-	let {comment, owner} = req.body
+	let { comment, owner } = req.body
 	let { labId } = req.params
+	
 
-
-	lab.AddComment(owner, labId, comment, (com)=>{
+	lab.AddComment(owner, labId, comment, (com) => {
 		res.json(com.coms)
 	})
 
 })
 router.post('/comment/get/:labId', jsonParser, (req, res, body) => {
 	let { labId } = req.params
+	
+	if (labId) {
+		lab.GetComment(labId, (com) => {
+			res.json(com.coms)
+		})
+	}
 
-
-	lab.GetComment(labId,(com)=>{
-		res.json(com.coms)
-	})
 
 })
 
 
 router.post('/update/:labId', jsonParser, (req, res, body) => {
 	let { labId } = req.params
-	let {title,subject, blog} = req.body
+	let { title, subject, blog, forumName } = req.body
 
-lab.UpdateLab(Number(labId),title,subject,blog,(lab)=>{
+	lab.UpdateLab(Number(labId), title, subject, blog, forumName, (lab) => {
 		res.json(lab)
 	})
 })

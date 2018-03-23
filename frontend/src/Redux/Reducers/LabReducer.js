@@ -18,7 +18,6 @@ export function LabReducer(state = initialState, action) {
         goto: action.payload.LabId
       };
     case 'GET_LAB_LIST_SUCCESS':
-
       return {
         ...state,
         labList: action.payload,

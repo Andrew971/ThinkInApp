@@ -2,6 +2,7 @@ const Forum = require('../Models/Forums')
 const Lab = require('../Models/Labs')
 const FoLab = require('../Models/FoLabs')
 const Comment = require('../Models/Comments')
+const Profile = require('../Models/Profiles')
 
 function AddLab(forumId, title, subject, blog, forumName, owner, cb) {
 
@@ -43,11 +44,13 @@ function RemoveLab(labId, cb) {
 		})
 }
 
-function UpdateLab(labId, title, subject, blog, cb) {
+function UpdateLab(labId, title, subject, blog,forumName, cb) {
 	const attributesToUpdate = {
 		Title: title,
 		Subject: subject,
-		Blog: blog
+		Blog: blog,
+		Path: `/${forumName}/labs/`,
+
 	}
 
 	Lab.where({ id: labId })
@@ -92,7 +95,21 @@ function GetOneLab(id, cb) {
 	Lab.where({ id: id })
 		.fetch()
 		.then(lab => {
-			cb(lab.attributes)
+
+			Forum.where({ id: lab.attributes.forum_id })
+			.fetch()
+			.then(forum => {
+				Profile.where({ user_id: forum.attributes.user_id })
+				.fetch()
+				.then(profile => {
+					cb({
+						profile: profile.attributes,
+						forum: forum.attributes,
+						lab:lab.attributes
+					})
+				})
+			})
+			// cb(lab.attributes)
 		})
 }
 
@@ -108,7 +125,7 @@ function AddComment(owner, labId, comment, cb) {
 	newComment.save()
 		.then(() => {
 			Comment.where({ lab_id: labId })
-			.orderBy('created_at', 'DESC')
+				.orderBy('created_at', 'DESC')
 				.fetchAll()
 				.then(Coms => {
 					let ComList = Coms.models.map(com => com.attributes)

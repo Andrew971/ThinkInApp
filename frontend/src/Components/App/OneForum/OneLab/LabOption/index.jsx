@@ -27,7 +27,8 @@ export class LabOption extends Component {
 
   componentDidMount = () => {
     const { dispatch } = this.props
-    const lab = localStorage.getItem('prevParams')
+    const lab = localStorage.getItem('prevParamslab')
+    console.log(lab)
     if (!this.props.redirect) {
       dispatch(GetOneLab({labId: lab}));
     }
@@ -53,9 +54,8 @@ export class LabOption extends Component {
     const title = (this.state.title) ? this.state.title : this.props.data.Title;
     const subject = (this.state.subject) ? this.state.subject : this.props.data.Subject;
     const blog = (this.state.blog) ? this.state.blog : this.props.data.Blog;
-
-    const { dispatch } = this.props
-    dispatch(UpdateLab({ labId: this.props.labId, title, subject, blog }));
+    const { dispatch,forumName } = this.props
+    dispatch(UpdateLab({ forumName:forumName, labId: this.props.labId, title, subject, blog }));
   }
 
   delete = () => {
@@ -67,15 +67,15 @@ export class LabOption extends Component {
     const { redirect, redirectToReferer, labId, forumName,path, classes } = this.props;
 
     if (redirect) {
-      return <Redirect to={'/'+forumName} />
+      return <Redirect to={'/forum/'+forumName} />
     }
 
     if (redirectToReferer) {
-      return <Redirect to={path + labId}  />
+      return <Redirect to={'/forum'+path + labId}  />
     }
 
     return (
-      <section>
+      <div>
         <form>
           <ContentEditable
             className="form-control col-md-12"
@@ -107,18 +107,18 @@ export class LabOption extends Component {
         Modiy
         <Delete className={classes.rightIcon} />
       </Button>
-            : <Button className={classes.button} variant="raised" color="secondary" onClick={() => { this.Save()}}>
+            : <Button className={classes.button} variant="raised" color="primary" onClick={() => { this.Save()}}>
         Save
         <Delete className={classes.rightIcon} />
       </Button>
         }
 
-        <Button className={classes.button} variant="raised" color="primary" onClick={() => { this.delete()}}>
+        <Button className={classes.button} variant="raised" color="secondary" onClick={() => { this.delete()}}>
         Delete
         <Delete className={classes.rightIcon} />
       </Button>
 
-      </section>
+      </div>
   
       );
     }

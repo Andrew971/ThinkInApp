@@ -10,10 +10,22 @@ export function FollowOneUser(info) {
       info: info
   };
 }
+export function unFollowOneUser(info) {
+  return {
+      type: 'UNFOLLOW_USER_REQUESTED',
+      info: info
+  };
+}
+export function unFollowOneLab(info) {
+  return {
+      type: 'UNFOLLOW_LAB_REQUESTED',
+      info: info
+  };
+}
 
 export function GetListFolowed(info) {
   return {
-      type: 'LIST_FOLLOW_LAB_REQUESTED',
+      type: 'LIST_FOLLOW_REQUESTED',
       info: info
   };
 }

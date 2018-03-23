@@ -26,3 +26,10 @@ export function* UserProfile(action) {
   yield put({type:'PROFILE_LOADED', payload:res.data})
 
 }
+
+export function* updatepProfile(action) {
+  const res = yield call(axios.post, apiUrl + 'profile/update/'+ action.info.profileId, action.info)
+	yield put({ type: 'PROFILE_UPDATE_SUCCESS', payload: res.data })
+
+}
+

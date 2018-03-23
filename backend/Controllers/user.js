@@ -62,5 +62,31 @@ function GetProfile (username, cb){
 		
 	})
 }
-module.exports = {AddUser, GetUser, GetInfo,GetProfile }
+
+
+
+function UpdateProfile(id, first,last, age, bio, cb) {
+	const attributesToUpdate = {
+		first_name: first,
+		last_name: last,
+		age: age,
+		bio: bio,
+	}
+
+	Profile.where({ id: id })
+		.save(attributesToUpdate, { patch: true })
+		.then(() => {
+			Profile.where({ id: id })
+				.fetch()
+				.then(profile => {
+					cb({
+						profile: profile.attributes,
+						status: true,
+						success: true
+					})
+				})
+		})
+
+}
+module.exports = {AddUser, GetUser, GetInfo,GetProfile,UpdateProfile }
 

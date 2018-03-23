@@ -1,27 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { GetOneLab, addComment,GetComment } from '../../../../../Redux/Actions/labAction';
-import {Zoom} from 'material-ui/transitions';
+import { GetOneLab, addComment, GetComment } from '../../../../../Redux/Actions/labAction';
 
+import { Grid } from 'material-ui';
 
 export class LabComments extends Component {
 
 
-  componentWillMount = () => {
-    const { dispatch } = this.props
-    const lab = localStorage.getItem('prevParams')
-    if (!this.props.redirect) {
-      dispatch(GetOneLab({ labId: lab }));
+
+  componentDidUpdate=(prevProps)=>{
+    const { dispatch, labId } = this.props
+    if(!prevProps.labId){
+    dispatch(GetComment({ labId: labId }));
     }
-    dispatch(GetComment({ labId: lab }));
   }
 
-  addComment=()=>{
+  addComment = () => {
     const { dispatch } = this.props
-    if (this.comment.value!=='') {
-      dispatch(addComment({ labId: this.props.labId,comment: this.comment.value, owner:this.props.owner}));
-     }
-    
+    if (this.comment.value !== '') {
+      dispatch(addComment({ labId: this.props.labId, comment: this.comment.value, owner: this.props.owner }));
+    }
+
 
   }
 
@@ -29,28 +28,29 @@ export class LabComments extends Component {
     const List = this.props.comment.map((comment) => {
 
       return (
-        <div className="list-group-item row" key={comment.id}>
+        <div className="list-group-item" key={comment.id}>
 
-          <div className="col-md-8" align="justify"><label htmlFor={comment.id} className="">{comment.Comment}</label></div>
+          <div className="" align="justify"><label htmlFor={comment.id} className="">{comment.Comment}</label></div>
 
         </div>);
     });
 
     return (
-      <div>
-        <form onSubmit={(e) => {e.preventDefault();this.addComment();}}>
-          <input type="text" className="form-control col-md-12" ref={type => {
-            this.comment = type;
-          }} placeholder="What is your plan for today?" />
-          <br />
-        </form>
-
-        <div className="list">
-          <div className="list-group">
-            {List}
-      </div>
-        </div>
-      </div>
+      <Grid style=
+      {{marginTop:'4vh'}} container alignItems="flex-start"
+        direction="row" justify="space-around" spacing={16}>
+        <Grid item xs={12} md={12} align="right">
+          <form onSubmit={(e) => { e.preventDefault(); this.addComment(); }}>
+            <input type="text" className="form-control col-md-12" ref={type => {
+              this.comment = type;
+            }} placeholder="What did you think?" />
+            <br />
+          </form>
+        </Grid>
+        <Grid item xs={12} md={12} align="right">
+          {List}
+        </Grid>
+      </Grid>
 
     );
   }
@@ -59,6 +59,7 @@ export class LabComments extends Component {
 
 
 const mapStateToProps = (state) => {
+  // console.log(state)
 
   return {
     owner: state.user.id,
@@ -68,7 +69,7 @@ const mapStateToProps = (state) => {
     redirectToReferer: state.lab.redirectToReferer,
     forumName: state.forum.ForumData.Name,
     path: state.lab.LabData.Path,
-    comment:state.lab.Comment,
+    comment: state.lab.Comment,
   };
 };
 

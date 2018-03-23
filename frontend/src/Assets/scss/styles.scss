@@ -1,11 +1,10 @@
 $primary:rgb(85, 84, 84);
-$secondary:rgba(31, 164, 204, 0.87);
+$secondary:#4CAF50;
 $thirdColor:rgba(18, 17, 17, 0.76);
 
 body{
   margin:0;
   font-family: 'Scada', sans-serif;  
-  overflow:hidden;
     -webkit-transition: all 1s ease-in;
   -moz-transition: all 1s ease-in;
   -ms-transition: all 1s ease-in;
@@ -18,21 +17,17 @@ body{
     color:black;
   }
 }
-.container-fluid{
-  padding:0;
-  
-}
 
 
-.row{
-  margin:0;
-}
 section {
   height:100%;
   width:100%;
   padding:4rem 14rem;
   overflow:auto;
 }
+
+
+
 @import './partials/Nav';
 @import './partials/Menu';
 @import './partials/Main';
