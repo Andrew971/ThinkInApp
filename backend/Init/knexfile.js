@@ -21,7 +21,7 @@ module.exports = {
 
   production: {
     client: 'pg',
-    connection:process.env.DATABASE_URL + '?ssl=true',
+    connection:'postgres://rirgskibkpdwld:5570660e539ef90750cd45bb4fc4739e370b3817fb25dd648857cc999195d856@ec2-54-83-192-68.compute-1.amazonaws.com:5432/d83nsp95pprqp6',
     pool: {
       min: 2,
       max: 10
