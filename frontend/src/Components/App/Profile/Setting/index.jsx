@@ -29,16 +29,16 @@ export class Option extends Component {
   };
 
   componentDidMount = () => {
-    const { dispatch, redirectToReferer, profileId } = this.props
+    const { dispatch, redirectToReferer, user } = this.props
     if (!redirectToReferer) {
-      dispatch(GetProfile(profileId));
+      dispatch(GetProfile(user));
     }
   }
   componentDidUpdate = (prevProps) => {
-    const { dispatch, profileId,data } = this.props
+    const { dispatch, profileId,data,user } = this.props
 
     if(prevProps.data !== data)
-    dispatch(GetProfile( profileId ));
+    dispatch(GetProfile(user ));
 
   }
 

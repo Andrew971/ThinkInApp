@@ -69,10 +69,13 @@ router.post('/signout', (req, res) => {
 
 router.post('/profile', (req, res) => {
 const {username} = req.body
+
 if(username){
   user.GetProfile(username, (info) => {
     res.json(info)
   })
+}else{
+  res.json({profile:null})
 }
 })
 

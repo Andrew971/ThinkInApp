@@ -56,10 +56,11 @@ function GetProfile (username, cb){
   User.where({Username: username})
 	.fetch({ withRelated: 'profile' })
 	.then(user => {
-		const {profile} = user.relations
-		
-		cb(profile.attributes)
-		
+		const profile = user.relations.profile.attributes
+		cb(profile)
+	})
+	.catch(e=>{
+		console.log(e)
 	})
 }
 

@@ -66,6 +66,8 @@ router.post('/comment/get/:labId', jsonParser, (req, res, body) => {
 		lab.GetComment(labId, (com) => {
 			res.json(com.coms)
 		})
+	}else{
+		res.json({coms:[]})
 	}
 
 

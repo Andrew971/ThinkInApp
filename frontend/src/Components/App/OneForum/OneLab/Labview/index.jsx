@@ -39,9 +39,8 @@ export class Labview extends Component {
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    const { dispatch, match, viewer,data } = this.props
+    const { dispatch, match, viewer } = this.props
    
-    console.log(prevProps.labid, Number(match.params.labId))
 
     if ((Object.keys(prevProps.data).length === 0) || 
     (prevProps.labid !== Number(match.params.labId))) {

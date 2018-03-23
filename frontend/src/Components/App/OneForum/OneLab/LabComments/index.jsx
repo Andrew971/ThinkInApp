@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { GetOneLab, addComment, GetComment } from '../../../../../Redux/Actions/labAction';
+import { addComment, GetComment } from '../../../../../Redux/Actions/labAction';
 
 import { Grid } from 'material-ui';
 
@@ -10,7 +10,8 @@ export class LabComments extends Component {
 
   componentDidUpdate=(prevProps)=>{
     const { dispatch, labId } = this.props
-    if(!prevProps.labId){
+
+    if(!prevProps.labId || (prevProps.labId !== labId)){
     dispatch(GetComment({ labId: labId }));
     }
   }
