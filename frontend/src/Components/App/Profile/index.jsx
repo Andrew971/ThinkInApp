@@ -40,14 +40,16 @@ const styles = theme => ({
 });
 
 export class Profile extends Component {
+
+
   componentDidMount = () => {
-    const { dispatch,match,viewer } = this.props
+    const { dispatch, match, viewer } = this.props
     // localStorage.setItem('prevPath', this.props.location.pathname)
     dispatch(GetProfile(match.params.username));
     dispatch(GetmyList(viewer))
 
   }
-  
+
   componentDidUpdate = (prevProps) => {
     const { dispatch, profile, match, location, viewer } = this.props
     if (prevProps.profile !== profile) {
@@ -55,6 +57,7 @@ export class Profile extends Component {
       dispatch(GetmyList(viewer))
 
     }
+
     if (prevProps.location.pathname !== location.pathname) {
       dispatch(GetProfile(match.params.username));
       dispatch(GetList(profile.user_id))
@@ -65,19 +68,22 @@ export class Profile extends Component {
     if (prevProps.match.params !== match.params) {
       dispatch(GetProfile(match.params.username));
       dispatch(GetList(profile.user_id))
-
     }
-   
+
+
   }
 
   FollowOneUser = () => {
     const { dispatch, viewer, profile } = this.props;
     dispatch(FollowOneUser({ user_id: viewer, foUser_id: profile.user_id }));
+    this.setState({status:true})
   }
 
   UnFollowOneUser = () => {
     const { dispatch, viewer, profile } = this.props;
     dispatch(unFollowOneUser({ user_id: viewer, foUser_id: profile.user_id }));
+    this.setState({status:false})
+
   }
 
   render() {
@@ -186,7 +192,7 @@ Profile.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  // console.log(state)
+  console.log(state)
 
   return {
     viewer: state.user.id,

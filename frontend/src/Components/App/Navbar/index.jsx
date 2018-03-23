@@ -100,7 +100,7 @@ class logged extends Component {
               {token ? (
                 <Grid item xs md={11}>
                   <Grid container spacing={16}>
-                    <Grid item xs={9} md={11}>
+                    <Grid item xs={10} sm={11} md={11}>
                       <SearchBar
 
                         onRequestSearch={() => { dispatch(searchStatus(false)) }}
@@ -111,7 +111,7 @@ class logged extends Component {
                         }}
                       />
                     </Grid>
-                    <Grid item xs md>
+                    <Grid item xs={1} sm={1} md>
                       <IconButton
                         onClick={this.handleMenu}
                         color="inherit"

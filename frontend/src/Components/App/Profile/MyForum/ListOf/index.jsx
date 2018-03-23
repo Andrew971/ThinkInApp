@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GetList, ResetRedirect } from '../../../../../Redux/Actions/forumAction';
 import { GetProfile } from '../../../../../Redux/Actions/getUserInfo';
+import { CircularProgress } from 'material-ui/Progress';
+
 
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
@@ -21,7 +23,10 @@ const styles = theme => ({
     position: 'relative',
     bottom: theme.spacing.unit * 2,
     right: theme.spacing.unit * 2,
-  }
+  },
+  progress: {
+    margin: theme.spacing.unit * 2,
+  },
 });
 
 export class ForumList extends Component {
@@ -33,11 +38,9 @@ export class ForumList extends Component {
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    const { dispatch, forumListLoaded, user, profile,data } = this.props
+    const { dispatch, user, profile,data } = this.props
 
-    if (!forumListLoaded) {
-      dispatch(GetList(profile.user_id))
-    }
+
     if(data.length === 0){
       dispatch(GetList(profile.user_id))
       dispatch(GetProfile(user.id));
@@ -72,7 +75,7 @@ export class ForumList extends Component {
 
     if (forumListLoaded === false) {
       return (
-        <div>Loading</div>
+      <div align="center"><CircularProgress className={classes.progress} color="secondary"  /></div>
       )
     } else {
       return (
@@ -108,7 +111,6 @@ ForumList.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  // console.log(state)
   return {
     data: state.forum.forumList,
     user: state.user,

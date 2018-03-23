@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GetList } from '../../../../../Redux/Actions/labAction';
 // import { GetOneForum } from '../../../../../Redux/Actions/forumAction';
+import { CircularProgress } from 'material-ui/Progress';
 
 
 // import { Link, withRouter } from 'react-router-dom'
@@ -61,7 +62,7 @@ export class LabList extends Component {
 
     if (!labList) {
       return (
-        <div>Loading</div>
+      <div align="center"><CircularProgress className={classes.progress} color="secondary"  /></div>
       )
     } else {
       return (

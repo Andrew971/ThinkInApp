@@ -2,8 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Add } from '../../../../../Redux/Actions/labAction';
 import { GetOneForum } from '../../../../../Redux/Actions/forumAction';
+import { Button } from 'material-ui';
+import { withStyles } from 'material-ui/styles';
+import PropTypes from 'prop-types';
 
 import { Redirect } from 'react-router-dom'
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  }
+});
 
 export class AddLabs extends Component {
   componentDidMount= () => {
@@ -25,14 +33,14 @@ export class AddLabs extends Component {
 
 
   render() {
-    let { goto, forumName} = this.props
-    const { redirect } = this.props
+    let { goto, forumName,classes, redirect} = this.props
+
     if (redirect === true) {
       return <Redirect to={'/forum/'+forumName+'/labs/'+ goto} />
     }
 
     return (
-        <section>
+        <div>
       <form ref={self => this.ForumForm = self}>
             <input type="text" className="form-control col-md-12" placeholder="Type your Title here" name="title" /><br />
             <input type="test" className="form-control col-md-12" placeholder="Type your subject here" name="subject" /><br />
@@ -44,14 +52,17 @@ export class AddLabs extends Component {
             ? <p style={{ color: 'red', fontWeight: 'bold' }}>{this.props.message}</p>
             : ''
         }
-        <button onClick={() => { this.AddLab() }}>Submit</button>
-        
-          </section>
+        <Button className={classes.button} variant="raised" color="primary" onClick={() => { this.AddLab() }}>
+              Save
+            </Button>
+          </div>
 
     );
   }
 }
-
+AddLabs.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = (state) => {
   return {
@@ -64,6 +75,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(
+export default withStyles(styles)(connect(
   mapStateToProps
-)(AddLabs);
+)(AddLabs));

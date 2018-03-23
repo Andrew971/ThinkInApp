@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Add } from '../../../../../Redux/Actions/forumAction';
+import { Button } from 'material-ui';
+import { withStyles } from 'material-ui/styles';
+import PropTypes from 'prop-types';
 
 import { Redirect } from 'react-router-dom'
 
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  }
+});
+
 export class AddForum extends Component {
 
-  
   AddForum= ()=>{
     const { name, subject,description } = this.ForumForm
 
@@ -17,7 +25,7 @@ export class AddForum extends Component {
 
 
   render() {
-    const { redirect } = this.props
+    const { redirect,classes } = this.props
     if (redirect === true) {
       return <Redirect to={'/forum/'+ this.props.goto} />
     }
@@ -35,14 +43,18 @@ export class AddForum extends Component {
             ? <p style={{ color: 'red', fontWeight: 'bold' }}>{this.props.message}</p>
             : ''
         }
-        <button onClick={() => { this.AddForum() }}>Submit</button>
-        
+        <Button className={classes.button} variant="raised" color="primary" onClick={() => { this.AddForum() }}>
+              Save
+            </Button>
           </div>
 
     );
   }
 }
 
+AddForum.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = (state) => {
   return {
@@ -52,6 +64,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(
+export default withStyles(styles)(connect(
   mapStateToProps
-)(AddForum);
+)(AddForum));
