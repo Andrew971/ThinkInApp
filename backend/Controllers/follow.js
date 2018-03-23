@@ -37,9 +37,9 @@ function deleteFoUser(user_id, foUser_id) {
     
   })
 }
-function deleteFoLab(user_id, foUser_id) {
+function deleteFoLab(userId, labid) {
 
-  FoLab.where({ user_id: user_id,foUser_id:foUser_id })
+  FoLab.where({ user_id: userId,lab_id:labid })
   .destroy()
   .then(() => {
    

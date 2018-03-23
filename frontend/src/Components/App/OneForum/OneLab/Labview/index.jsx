@@ -63,7 +63,7 @@ export class Labview extends Component {
     const { dispatch, viewer, match } = this.props;
     const { labId } = match.params
 
-    dispatch(unFollowOneLab({ user_id: viewer, labid: Number(labId) }));
+    dispatch(unFollowOneLab({ userId: viewer, labid: Number(labId) }));
   }
   render() {
     let { match, mylabs, data, owner, viewer, classes, history } = this.props

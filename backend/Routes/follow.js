@@ -24,21 +24,16 @@ router.post('/undo', jsonParser, (req, res) => {
 
 })
 router.post('/lab/undo', jsonParser, (req, res) => {
-  let {user_id,foUser_id}=req.body
+  let {userId, labid}=req.body
 
-  console.log('undo')
-
-  Follow.deleteFoLab(user_id,foUser_id)
+console.log(userId, labid)
+  Follow.deleteFoLab(userId,labid)
 
 })
 
 router.post('/lab', jsonParser, (req, res) => {
-  // let {labId}= req.params
-  // let {userId}=req.body
-
-  console.log(req.body)
-res.json('ok')
-  // Follow.AddFoLab(userId,labId)
+  let {userId, labid}=req.body
+  Follow.AddFoLab(userId,labid)
 
 })
 

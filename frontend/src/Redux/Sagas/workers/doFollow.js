@@ -1,13 +1,11 @@
 import axios from 'axios'
 import { call, put } from 'redux-saga/effects'
-
-const apiUrl = 'http://localhost:8080/follow/'
+import {follow} from '../../../js/Api'
 
 export function* FollowLab(action) {
-console.log(action.info)
+
     try {
-        yield call(axios.post,apiUrl+'lab', action.info)
-        //console.log(res.data)
+        yield call(axios.post,follow+'lab', action.info)
     } catch(e) {
         console.log(e)
     }
@@ -15,25 +13,25 @@ console.log(action.info)
 }
 
 export function* FollowUser(action) {
-    yield call(axios.post, apiUrl, action.info)
+    yield call(axios.post, follow, action.info)
 
 }
 export function* unFollowUser(action) {
-    yield call(axios.post, apiUrl+'undo', action.info)
+    yield call(axios.post, follow+'undo', action.info)
 
 }
 export function* unFollowLab(action) {
-    // yield call(axios.post, apiUrl+'lab/undo', action.info)
+    yield call(axios.post, follow+'lab/undo', action.info)
 
 }
 
 export function* GetlistFo(action) {
-    const res = yield call(axios.post, apiUrl+'getlisto', {userId:action.info})
+    const res = yield call(axios.post, follow+'getlisto', {userId:action.info})
     yield put({ type: 'FOLLOW_LIST_SUCCESS', payload: res.data })
 
 }
 export function* GetMylistFo(action) {
-    const res = yield call(axios.post, apiUrl+'getlisto', {userId:action.info})
+    const res = yield call(axios.post, follow+'getlisto', {userId:action.info})
     yield put({ type: 'MY_LIST_SUCCESS', payload: res.data })
 
 }

@@ -4,7 +4,6 @@ import { UpdateProfile } from '../../../../Redux/Actions/getUserInfo';
 import { GetProfile } from '../../../../Redux/Actions/getUserInfo';
 import ContentEditable from 'react-contenteditable'
 import PropTypes from 'prop-types';
-import Delete from 'material-ui-icons/Delete';
 
 import { Redirect } from 'react-router-dom'
 import { Button } from 'material-ui';
@@ -35,7 +34,7 @@ export class Option extends Component {
     }
   }
   componentDidUpdate = (prevProps) => {
-    const { dispatch, profileId,data,user } = this.props
+    const { dispatch,data,user } = this.props
 
     if(prevProps.data !== data)
     dispatch(GetProfile(user ));
@@ -126,11 +125,9 @@ export class Option extends Component {
           (this.state.status)
             ? <Button className={classes.button} variant="flat" color="default" onClick={() => { this.getModify() }}>
               Modiy
-        <Delete className={classes.rightIcon} />
             </Button>
             : <Button className={classes.button} variant="raised" color="secondary" onClick={() => { this.Save() }}>
               Save
-        <Delete className={classes.rightIcon} />
             </Button>
         }
 

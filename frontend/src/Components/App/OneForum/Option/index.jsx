@@ -109,11 +109,9 @@ export class Option extends Component {
           (this.state.status)
             ? <Button className={classes.button} variant="flat" color="default" onClick={() => { this.getModify()}}>
         Modiy
-        <Delete className={classes.rightIcon} />
       </Button>
             : <Button className={classes.button} variant="raised" color="primary" onClick={() => { this.Save()}}>
         Save
-        <Delete className={classes.rightIcon} />
       </Button>
         }
 
