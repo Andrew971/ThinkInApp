@@ -1,4 +1,4 @@
-const bookshelf = require('../Init/PostgresSql')
+const bookshelf = require('./PostgresSql')
 const Labs = require('./Labs')
 
 const Forum = bookshelf.Model.extend({

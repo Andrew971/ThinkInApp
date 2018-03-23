@@ -1,4 +1,4 @@
-const bookshelf = require('../Init/PostgresSql')
+const bookshelf = require('./PostgresSql')
 const Forums = require('./Forums')
 const Profile = require('./Profiles')
 

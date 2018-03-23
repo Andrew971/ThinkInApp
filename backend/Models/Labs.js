@@ -1,4 +1,4 @@
-const bookshelf = require('../Init/PostgresSql')
+const bookshelf = require('./PostgresSql')
 
 const Labs = bookshelf.Model.extend({
   tableName: 'labs',

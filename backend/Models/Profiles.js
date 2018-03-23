@@ -1,4 +1,4 @@
-const bookshelf = require('../Init/PostgresSql')
+const bookshelf = require('./PostgresSql')
 const User = require('./Users')
 
 const Profile = bookshelf.Model.extend({
